@@ -1,0 +1,23 @@
+{
+  "name": "nodeplate",
+  "version": "1.0.0",
+  "description": "A minimal boilerplate for Node.js with ESLint and Prettier.",
+  "main": "./src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "format": "prettier --write src/**",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "eslint --fix src/**"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import-helpers": "^1.3.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.2"
+  }
+}
