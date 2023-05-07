@@ -25,18 +25,30 @@ export const scrap = async () => {
         ),
       );
 
-      const mappedProducts = products.map(product => {
+      const mappedProducts = products.map((product, index) => {
+        //TODO find a better way to deal with prices
+        const value = product
+          .querySelector(CONSTANTS.productMainPriceClass)
+          .innerHTML.replace('R$ ', '');
+        const decimal =
+          product.querySelector(CONSTANTS.productDecimalPriceClass)
+            ?.innerHTML || 0;
+
+        const price = `${value}.${decimal}`;
+
         return {
+          position: index + 1,
           name: product.querySelector(CONSTANTS.productNameClass).textContent,
           image: product
             .querySelector(CONSTANTS.productImageClass)
             .getAttribute('src'),
-          price: product.querySelector(CONSTANTS.productPriceClass).textContent,
+          price: +price,
+          link: product.parentElement.getAttribute('href'),
         };
       });
       return {
         name: category.textContent,
-        lenght: products.length,
+        length: products.length,
         products: mappedProducts,
       };
     });
