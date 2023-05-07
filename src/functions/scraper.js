@@ -10,15 +10,23 @@ export const scrap = async () => {
 
   await page.goto(CONSTANTS.appURL, {
     waitUntil: 'networkidle2',
-    timeout: 120000,
+    timeout: 60000,
   });
 
-  const data = await page.evaluate(CONSTANTS => {
+  const data = await page.evaluate(async CONSTANTS => {
     const categories = Array.from(
       document.querySelectorAll(CONSTANTS.categoryTitleClass),
     );
 
     return categories.map(category => {
+      /**
+       * This functions removes accentuated characters from a string
+       * and replace it for the plain version.
+       */
+      const normalizedCategoryName = category.textContent
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
       const products = Array.from(
         category.parentElement.nextElementSibling.querySelectorAll(
           CONSTANTS.productCardClass,
@@ -48,7 +56,11 @@ export const scrap = async () => {
       });
       return {
         name: category.textContent,
-        length: products.length,
+        slug: normalizedCategoryName
+          .toLowerCase()
+          .replace(/ /g, '-')
+          .replace(/[^\w-]+/g, ''),
+        quantity: products.length,
         products: mappedProducts,
       };
     });
