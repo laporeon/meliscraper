@@ -13,7 +13,7 @@ export const scrap = async () => {
     timeout: 60000,
   });
 
-  const data = await page.evaluate(async CONSTANTS => {
+  const data = await page.evaluate(CONSTANTS => {
     const categories = Array.from(
       document.querySelectorAll(CONSTANTS.categoryTitleClass),
     );
