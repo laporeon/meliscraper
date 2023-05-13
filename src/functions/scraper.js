@@ -13,7 +13,7 @@ export const scrap = async () => {
 
   const categories = await page.evaluate(async CONSTANTS => {
     const categoriesList = Array.from(
-      document.querySelectorAll('.dynamic__carousel'),
+      document.querySelectorAll(CONSTANTS.categoriesSectionClass),
     );
 
     return categoriesList.map(category => {
