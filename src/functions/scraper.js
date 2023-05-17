@@ -1,8 +1,8 @@
-import { CONSTANTS } from '../utils/constants.js';
-
 import puppeteer from 'puppeteer';
 
-export const scrap = async () => {
+import { CONSTANTS } from '../utils/constants.js';
+
+export const scraper = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -11,12 +11,12 @@ export const scrap = async () => {
     timeout: 60000,
   });
 
-  const categories = await page.evaluate(async CONSTANTS => {
-    const categoriesList = Array.from(
+  const data = await page.evaluate(async CONSTANTS => {
+    const categories = Array.from(
       document.querySelectorAll(CONSTANTS.categoriesSectionClass),
     );
 
-    return categoriesList.map(category => {
+    return categories.map(category => {
       const element = category.querySelector(CONSTANTS.categoryTitleClass);
       const elementSibling = element.parentElement.nextElementSibling;
 
@@ -63,17 +63,7 @@ export const scrap = async () => {
     });
   }, CONSTANTS);
 
-  categories.forEach(async category => {
-    const { name, slug, quantity, products } = category;
-
-    console.log({ category });
-
-    products.forEach(async product => {
-      const { position, name, image, price, link } = product;
-
-      console.log({ product });
-    });
-  });
-
   await browser.close();
+
+  return { categories: data };
 };
