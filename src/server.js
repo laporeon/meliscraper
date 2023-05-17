@@ -1,6 +1,10 @@
 import express from 'express';
 
+import { scrapRoutes } from './routes/index.js';
+
 const app = express();
+
+app.use(scrapRoutes);
 
 app.get('/', async (req, res) => {
   res.json({
