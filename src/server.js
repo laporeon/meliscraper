@@ -1,10 +1,15 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 
-import { scrapRoutes } from './routes/index.js';
+import swaggerDocs from '../docs/swagger.json' assert { type: "json" };
+
+import { scrapRoutes, categoriesRoutes } from './routes/index.js';
 
 const app = express();
 
-app.use(scrapRoutes);
+app.use(scrapRoutes, categoriesRoutes);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/', async (req, res) => {
   res.json({
