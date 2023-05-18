@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Meliscraper API",
+    "description": "A simple API that scraps data from Mercado Livre's bestsellers page!",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/scraping": {
+      "post": {
+        "tags": [
+          "Scraper"
+        ],
+        "summary": "Performs a new scrap.",
+        "description": "Performs a new scrap, save data into database and returns all the scraped datalist for the current date.",
+        "responses": {
+          "200": {
+            "description": "Data return.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "categories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "products": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "position": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "image": {
+                                      "type": "string"
+                                    },
+                                    "price": {
+                                      "type": "numer"
+                                    },
+                                    "link": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
