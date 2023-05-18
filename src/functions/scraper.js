@@ -36,7 +36,6 @@ export const scraper = async () => {
       return {
         name,
         slug,
-        quantity: products.length,
         products: products.map((product, index) => {
           //TODO find a better way to deal with prices
           const value = product
