@@ -1,4 +1,4 @@
-import { scraper } from '../functions/scraper.js';
+import { scraper } from '../utils/scraper.js';
 
 import { CategoryController } from './category-controller.js';
 
