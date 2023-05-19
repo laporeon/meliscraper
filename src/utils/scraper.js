@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-import { CONSTANTS } from '../utils/constants.js';
+import { CONSTANTS } from './constants.js';
 
 export const scraper = async () => {
   const browser = await puppeteer.launch();
