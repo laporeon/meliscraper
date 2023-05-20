@@ -2,7 +2,7 @@ import { prisma } from '../database/prisma.js';
 import { logger } from '../utils/logger.js';
 
 export class CategoryController {
-  async mapCategories(categories) {
+  mapCategories(categories) {
     categories.forEach(category => {
       const { name, slug } = category;
 
