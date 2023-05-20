@@ -1,4 +1,5 @@
 import { prisma } from '../database/prisma.js';
+import { logger } from '../utils/logger.js';
 
 export class CategoryController {
   async mapCategories(categories) {
@@ -21,16 +22,17 @@ export class CategoryController {
       },
     });
 
-    console.log(`Category ${name.toUpperCase()} created!`);
+    logger.info(`Category ${name.toUpperCase()} created!`);
   }
 
   async isPresent(name) {
     const category = await prisma.category.findFirst({ where: { name } });
 
     if (category) {
-      console.log(
+      logger.warn(
         `Category ${name.toUpperCase()} is already registered. Skipping creation...`,
       );
+
       return true;
     }
 
