@@ -77,6 +77,51 @@
           }
         }
       }
+    },
+    "/categories": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Return categories",
+        "description": "Return a list of all categories available, including name and slug.",
+        "responses": {
+          "200": {
+            "description": "Categories return.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "categories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
