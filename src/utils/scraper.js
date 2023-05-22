@@ -1,3 +1,5 @@
+/*eslint no-undef: "off"*/
+
 import puppeteer from 'puppeteer';
 
 import { CONSTANTS } from './constants.js';
