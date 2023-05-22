@@ -1,7 +1,9 @@
+import { readFileSync } from 'node:fs';
+
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-import swaggerDocs from '../docs/swagger.json' assert { type: "json" };
+const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
 
 import { scrapRoutes, categoriesRoutes } from './routes/index.js';
 
