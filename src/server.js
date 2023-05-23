@@ -5,11 +5,15 @@ import swaggerUi from 'swagger-ui-express';
 
 const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
 
-import { scrapRoutes, categoriesRoutes } from './routes/index.js';
+import {
+  scrapRoutes,
+  categoriesRoutes,
+  productsRoutes,
+} from './routes/index.js';
 
 const app = express();
 
-app.use(scrapRoutes, categoriesRoutes);
+app.use(scrapRoutes, categoriesRoutes, productsRoutes);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
