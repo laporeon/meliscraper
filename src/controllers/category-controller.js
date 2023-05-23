@@ -1,12 +1,20 @@
 import { prisma } from '../database/prisma.js';
 import { logger } from '../utils/logger.js';
 
+import { ProductController } from './product-controller.js';
+
+const productController = new ProductController();
+
 export class CategoryController {
   mapCategories(categories) {
-    categories.forEach(category => {
-      const { name, slug } = category;
+    categories.forEach(async category => {
+      const { name, slug, products } = category;
 
       this.create({ name, slug });
+
+      const { id } = await this.findCategoryId(name);
+
+      productController.mapProducts(products, id);
     });
   }
 
@@ -59,5 +67,15 @@ export class CategoryController {
     } catch (err) {
       return res.json({ error: err.message });
     }
+  }
+
+  async findCategoryId(name) {
+    const categoryId = await prisma.category.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    return categoryId;
   }
 }
