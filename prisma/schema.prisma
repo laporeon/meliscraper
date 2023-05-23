@@ -16,5 +16,22 @@ model Category {
   slug       String
   created_at DateTime @default(now())
 
+  products Product[]
+
   @@map("categories")
+}
+
+model Product {
+  id         String   @id @default(uuid())
+  position   Int
+  name       String
+  image      String
+  price      Float
+  link       String
+  categoryId String
+  created_at DateTime @default(now())
+
+  Category Category? @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
 }
