@@ -14,7 +14,7 @@ export class ScrapController {
 
       logger.info('Scraping successfully performed.');
 
-      await categoryController.mapCategories(data.categories);
+      categoryController.mapCategories(data.categories);
 
       return res.json({
         status: 'success',
