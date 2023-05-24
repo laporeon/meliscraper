@@ -10,7 +10,7 @@ export class CategoryController {
     categories.forEach(async category => {
       const { name, slug, products } = category;
 
-      this.create({ name, slug });
+      await this.create({ name, slug });
 
       const { id } = await this.findCategoryId(name);
 
