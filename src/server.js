@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 
+import 'dotenv/config';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
