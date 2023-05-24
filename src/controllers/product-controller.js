@@ -13,8 +13,6 @@ export class ProductController {
   async create(product) {
     const { position, name, image, price, link, categoryId } = product;
 
-    if (await this.isPresent(name, link)) return;
-
     await prisma.product.create({
       data: {
         position,
@@ -27,20 +25,6 @@ export class ProductController {
     });
 
     logger.info(`Product ${name.toUpperCase()} created!`);
-  }
-
-  async isPresent(name, link) {
-    const product = await prisma.product.findFirst({ where: { name, link } });
-
-    if (product) {
-      logger.warn(
-        `Product ${name.toUpperCase()} is already registered. Skipping creation...`,
-      );
-
-      return true;
-    }
-
-    return false;
   }
 
   async get(req, res) {
