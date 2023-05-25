@@ -46,9 +46,9 @@ export class ProductController {
             'No products available. Please, perform your first scraping using /scraper route and try this operation again.',
         });
 
-      return res.json({ status: 'OK', data: { products } });
+      return res.status(200).json({ status: 'OK', data: { products } });
     } catch (err) {
-      return res.json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   }
 }
