@@ -16,18 +16,17 @@ export class ScrapController {
 
       categoryController.mapCategories(data.categories);
 
-      return res.json({
+      return res.status(200).json({
         status: 'success',
         message: 'Scraping successfully performed.',
         data,
       });
     } catch (err) {
       logger.error({
-        message:
-          'There was an error while trying to perform requested operation,',
+        message: 'Error from scraping request',
         error: err,
       });
-      return res.json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   }
 }
