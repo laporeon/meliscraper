@@ -12,11 +12,11 @@
         "tags": [
           "Scraper"
         ],
-        "summary": "Performs a new scrap.",
-        "description": "Performs a new scrap, save data into database and returns all the scraped datalist for the current date.",
+        "summary": "New scraping.",
+        "description": "Performs a new scraping, saving fetched data into database and returning the result.",
         "responses": {
           "200": {
-            "description": "Data return.",
+            "description": "Returns result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -83,11 +83,11 @@
         "tags": [
           "Category"
         ],
-        "summary": "Return categories",
-        "description": "Return a list of all categories available, including name and slug.",
+        "summary": "Categories stored.",
+        "description": "Returns a list of all categories stored at the time, including id, name and slug.",
         "responses": {
           "200": {
-            "description": "Categories return.",
+            "description": "Categories result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -108,6 +108,80 @@
                                 "type": "string"
                               },
                               "slug": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{id}/products": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Category products.",
+        "description": "Returns a list of all the products related to the category. CategoryId is required.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category products return.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "category": {
+                          "type": "string"
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "image": {
                                 "type": "string"
                               }
                             }
