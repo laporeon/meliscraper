@@ -4,17 +4,22 @@ import 'dotenv/config';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
-
 import {
   scrapRoutes,
   categoriesRoutes,
   productsRoutes,
 } from './routes/index.js';
+import { logger } from './utils/logger.js';
 
 const app = express();
 
-app.use(scrapRoutes, categoriesRoutes, productsRoutes);
+const PORT = process.env.PORT | 3000;
+
+const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
+
+app.use('/scraping', scrapRoutes);
+app.use('/categories', categoriesRoutes);
+app.use('/products', productsRoutes);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
@@ -25,6 +30,6 @@ app.get('/', async (req, res) => {
   });
 });
 
-app.listen(3333, () => {
-  console.log(`Server is running on port 3333`);
+app.listen(PORT, () => {
+  logger.info(`Server is running on http://localhost:${PORT}`);
 });
