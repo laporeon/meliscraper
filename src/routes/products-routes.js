@@ -6,6 +6,6 @@ const routes = Router();
 
 const productController = new ProductController();
 
-routes.get('/products', productController.get);
+routes.get('/', productController.get);
 
 export { routes as productsRoutes };

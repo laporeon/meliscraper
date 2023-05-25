@@ -6,6 +6,6 @@ const routes = Router();
 
 const scrapController = new ScrapController();
 
-routes.post('/scraping', scrapController.create);
+routes.post('/', scrapController.create);
 
 export { routes as scrapRoutes };
