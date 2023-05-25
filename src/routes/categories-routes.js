@@ -6,6 +6,7 @@ const routes = Router();
 
 const categoryController = new CategoryController();
 
-routes.get('/categories', categoryController.get);
+routes.get('/', categoryController.get);
+routes.get('/:id/products', categoryController.findProductsById);
 
 export { routes as categoriesRoutes };
