@@ -12,7 +12,7 @@
         "tags": [
           "Scraper"
         ],
-        "summary": "New scraping.",
+        "summary": "Performs new scraping.",
         "description": "Performs a new scraping, saving fetched data into database and returning the result.",
         "responses": {
           "200": {
@@ -58,6 +58,76 @@
                                     },
                                     "price": {
                                       "type": "numer"
+                                    },
+                                    "link": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scraping/{date}": {
+      "get": {
+        "tags": [
+          "Scraper"
+        ],
+        "summary": "Searches scraping by date.",
+        "description": "Searches and returns scraping for a specific date.",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns result by date.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string"
+                        },
+                        "categories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "products": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
                                     },
                                     "link": {
                                       "type": "string"
