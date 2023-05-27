@@ -2,11 +2,11 @@ import { prisma } from '../database/prisma.js';
 import { logger } from '../utils/logger.js';
 
 export class ProductController {
-  mapProducts(products, id) {
-    products.forEach(product => {
+  mapProducts(products, categoryId) {
+    products.forEach(async product => {
       const { position, name, image, price, link } = product;
 
-      this.create({ position, name, image, price, link, categoryId: id });
+      await this.create({ position, name, image, price, link, categoryId });
     });
   }
 
