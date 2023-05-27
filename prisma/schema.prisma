@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Category {
-  id         String   @id @default(uuid())
-  name       String
+  id         String     @id @default(uuid())
+  name       String     @unique
   slug       String
-  created_at DateTime @default(now())
+  scrapings  DateTime[] @db.Date
+  created_at DateTime   @default(now())
 
   products Product[]
 
