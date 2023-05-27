@@ -1,4 +1,5 @@
 import { prisma } from '../database/prisma.js';
+import { date } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
 
 import { ProductController } from './product-controller.js';
@@ -10,23 +11,40 @@ export class CategoryController {
     categories.forEach(async category => {
       const { name, slug, products } = category;
 
-      await this.create({ name, slug });
+      await this.create({
+        name,
+        slug,
+      });
 
-      const { id } = await this.findCategoryId(name);
+      const { id: categoryId } = await this.findCategoryId(name);
 
-      productController.mapProducts(products, id);
+      await productController.mapProducts(products, categoryId);
     });
   }
 
   async create(category) {
     const { name, slug } = category;
 
-    if (await this.isPresent(name)) return;
+    if (await this.isPresent(name)) {
+      await prisma.category.update({
+        where: { name },
+        data: {
+          scrapings: {
+            push: new Date(date),
+          },
+        },
+      });
+
+      return;
+    }
 
     await prisma.category.create({
       data: {
         name,
         slug,
+        scrapings: {
+          set: new Date(date),
+        },
       },
     });
 
@@ -66,6 +84,10 @@ export class CategoryController {
 
       return res.status(200).json({ status: 'OK', data: { categories } });
     } catch (err) {
+      logger.error({
+        message: 'Error from [[ /categories ]] request',
+        error: err,
+      });
       return res.json({ error: err.message });
     }
   }
@@ -112,7 +134,7 @@ export class CategoryController {
       });
     } catch (err) {
       logger.error({
-        message: 'Error from findProductsById request',
+        message: 'Error from [[ /categories/:id/products ]] request',
         error: err,
       });
       return res.status(500).json({ status: 'ERROR', message: err.message });
