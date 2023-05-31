@@ -1,30 +1,10 @@
 import { prisma } from '../database/prisma.js';
 import { date } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
-
-import { ProductController } from './product-controller.js';
-
-const productController = new ProductController();
+import { slugify } from '../utils/slugify.js';
 
 export class CategoryController {
-  mapCategories(categories) {
-    categories.forEach(async category => {
-      const { name, slug, products } = category;
-
-      await this.create({
-        name,
-        slug,
-      });
-
-      const { id: categoryId } = await this.findCategoryId(name);
-
-      await productController.mapProducts(products, categoryId);
-    });
-  }
-
-  async create(category) {
-    const { name, slug } = category;
-
+  async create(name) {
     if (await this.isPresent(name)) {
       await prisma.category.update({
         where: { name },
@@ -41,7 +21,7 @@ export class CategoryController {
     await prisma.category.create({
       data: {
         name,
-        slug,
+        slug: slugify(name),
         scrapings: {
           set: new Date(date),
         },
@@ -49,6 +29,8 @@ export class CategoryController {
     });
 
     logger.info(`Category ${name.toUpperCase()} created!`);
+
+    return;
   }
 
   async isPresent(name) {
@@ -92,17 +74,17 @@ export class CategoryController {
     }
   }
 
-  async findCategoryId(name) {
-    const categoryId = await prisma.category.findFirst({
+  async findId(name) {
+    const { id } = await prisma.category.findFirst({
       where: {
         name,
       },
     });
 
-    return categoryId;
+    return { id };
   }
 
-  async findProductsById(req, res) {
+  async findProducts(req, res) {
     try {
       const { id } = req.params;
 
