@@ -2,18 +2,12 @@ import { prisma } from '../database/prisma.js';
 import { logger } from '../utils/logger.js';
 import { scraper } from '../utils/scraper.js';
 
-import { CategoryController } from './category-controller.js';
-
-const categoryController = new CategoryController();
-
 export class ScrapController {
   async create(req, res) {
     try {
       logger.info('New scraping requested.');
 
       const result = await scraper();
-
-      await categoryController.mapCategories(result.categories);
 
       logger.info(
         'Scraping successfully performed and data saved into database.',
