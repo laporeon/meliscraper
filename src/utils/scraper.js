@@ -2,7 +2,13 @@
 
 import puppeteer from 'puppeteer';
 
+import { CategoryController } from '../controllers/category-controller.js';
+import { ProductController } from '../controllers/product-controller.js';
+
 import { CONSTANTS } from './constants.js';
+
+const categoryController = new CategoryController();
+const productController = new ProductController();
 
 export const scraper = async () => {
   const browser = await puppeteer.launch();
@@ -13,42 +19,29 @@ export const scraper = async () => {
     timeout: 60000,
   });
 
-  const data = await page.evaluate(async CONSTANTS => {
-    const categories = Array.from(
+  const categories = await page.evaluate(async CONSTANTS => {
+    return Array.from(
       document.querySelectorAll(CONSTANTS.categoriesSectionClass),
-    );
-
-    return categories.map(category => {
-      const element = category.querySelector(CONSTANTS.categoryTitleClass);
-      const elementSibling = element.parentElement.nextElementSibling;
-
-      const name = element.textContent;
-
-      const slug = element.textContent
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .replace(/ /g, '-')
-        .replace(/[^\w-]+/g, '');
+    ).map(category => {
+      const categoryName = category.querySelector(
+        CONSTANTS.categoryTitleClass,
+      ).textContent;
 
       const products = Array.from(
-        elementSibling.querySelectorAll(CONSTANTS.productCardClass),
+        category.querySelectorAll(CONSTANTS.productCardClass),
       );
 
       return {
-        name,
-        slug,
+        name: categoryName,
         products: products.map((product, index) => {
           //TODO find a better way to deal with prices
           const value = product
             .querySelector(CONSTANTS.productMainPriceClass)
-            .innerHTML.replace('R$ ', '')
+            .innerText.replace('R$ ', '')
             .replace('.', '');
           const decimal =
             product.querySelector(CONSTANTS.productDecimalPriceClass)
-              ?.innerHTML || 0;
-
-          const price = `${value}.${decimal}`;
+              ?.innerText || 0;
 
           return {
             position: index + 1,
@@ -56,8 +49,10 @@ export const scraper = async () => {
             image: product
               .querySelector(CONSTANTS.productImageClass)
               .getAttribute('src'),
-            price: +price,
-            link: product.parentElement.getAttribute('href'),
+            price: Number(`${value}.${decimal}`),
+            link: product
+              .querySelector(CONSTANTS.productLinkClass)
+              .getAttribute('href'),
           };
         }),
       };
@@ -66,5 +61,13 @@ export const scraper = async () => {
 
   await browser.close();
 
-  return { categories: data };
+  categories.map(async category => {
+    const { name, products } = category;
+
+    await categoryController.create(name);
+    const { id } = await categoryController.findId(name);
+    await productController.create(products, id, name);
+  });
+
+  return { categories };
 };
