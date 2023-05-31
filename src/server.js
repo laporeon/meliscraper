@@ -21,12 +21,12 @@ app.use('/scraping', scrapRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/products', productsRoutes);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get('/', async (req, res) => {
   res.json({
     message:
-      'Hello! Welcome to Meliscraper API. To see full documentation, please go to /api-docs',
+      'Hello! Welcome to Meliscraper API. To see full documentation, please go to /documentation route.',
   });
 });
 
