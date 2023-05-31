@@ -2,29 +2,21 @@ import { prisma } from '../database/prisma.js';
 import { logger } from '../utils/logger.js';
 
 export class ProductController {
-  mapProducts(products, categoryId) {
-    products.forEach(async product => {
-      const { position, name, image, price, link } = product;
-
-      await this.create({ position, name, image, price, link, categoryId });
-    });
-  }
-
-  async create(product) {
-    const { position, name, image, price, link, categoryId } = product;
-
-    await prisma.product.create({
-      data: {
-        position,
-        name,
-        image,
-        price,
-        link,
-        categoryId,
-      },
+  async create(products, categoryId, category) {
+    products.map(async product => {
+      await prisma.product.create({
+        data: {
+          ...product,
+          categoryId,
+        },
+      });
     });
 
-    logger.info(`Product ${name.toUpperCase()} created!`);
+    logger.info(
+      `${products.length} products were created for category ${category}!`,
+    );
+
+    return;
   }
 
   async get(req, res) {
