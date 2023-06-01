@@ -1,16 +1,17 @@
 import { prisma } from '../database/prisma.js';
-import { date } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
 import { slugify } from '../utils/slugify.js';
 
 export class CategoryController {
-  async create(name) {
+  async create(name, scrapingId) {
     if (await this.isPresent(name)) {
       await prisma.category.update({
         where: { name },
         data: {
           scrapings: {
-            push: new Date(date),
+            connect: {
+              id: scrapingId,
+            },
           },
         },
       });
@@ -23,7 +24,9 @@ export class CategoryController {
         name,
         slug: slugify(name),
         scrapings: {
-          set: new Date(date),
+          connect: {
+            id: scrapingId,
+          },
         },
       },
     });
