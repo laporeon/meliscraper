@@ -17,7 +17,7 @@ const PORT = process.env.PORT | 3000;
 
 const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
 
-app.use('/scraping', scrapRoutes);
+app.use('/scrapings', scrapRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/products', productsRoutes);
 
