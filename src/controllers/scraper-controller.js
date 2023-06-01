@@ -7,7 +7,7 @@ export class ScrapController {
     try {
       logger.info('New scraping requested.');
 
-      const result = await scraper();
+      const scraping = await scraper();
 
       logger.info(
         'Scraping successfully performed and data saved into database.',
@@ -17,7 +17,7 @@ export class ScrapController {
         status: 'success',
         message:
           'Scraping was successfully performed and current data saved into database.',
-        result,
+        scraping,
       });
     } catch (err) {
       logger.error({
@@ -29,22 +29,25 @@ export class ScrapController {
   }
 
   async getByDate(req, res) {
+    console.log({ params: req.params });
     try {
       const { date } = req.params;
 
-      const result = await prisma.category.findMany({
+      const result = await prisma.scraping.findMany({
         where: {
-          scrapings: {
-            has: new Date(date),
-          },
+          date,
         },
-        select: {
-          name: true,
-          slug: true,
-          products: {
+        include: {
+          categories: {
             select: {
               name: true,
-              link: true,
+              products: {
+                select: {
+                  name: true,
+                  link: true,
+                  price: true,
+                },
+              },
             },
           },
         },
@@ -52,10 +55,7 @@ export class ScrapController {
 
       return res.status(200).json({
         status: 'success',
-        data: {
-          date,
-          categories: result,
-        },
+        result,
       });
     } catch (err) {
       logger.error({
