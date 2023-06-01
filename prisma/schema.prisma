@@ -10,14 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id         String     @id @default(uuid())
-  name       String     @unique
-  slug       String
-  scrapings  DateTime[] @db.Date
-  created_at DateTime   @default(now())
+model Scraping {
+  id   String   @id @default(uuid())
+  date DateTime @default(now()) @db.Date
 
-  products Product[]
+  categories Category[]
+
+  @@map("scrapings")
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  slug       String
+  created_at DateTime @default(now())
+
+  products  Product[]
+  scrapings Scraping[]
 
   @@map("categories")
 }
