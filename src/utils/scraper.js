@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer';
 
 import { CategoryController } from '../controllers/category-controller.js';
 import { ProductController } from '../controllers/product-controller.js';
+import { prisma } from '../database/prisma.js';
 
 import { CONSTANTS } from './constants.js';
 
@@ -61,13 +62,14 @@ export const scraper = async () => {
 
   await browser.close();
 
+  const { id: scrapingId } = await prisma.scraping.create({ data: {} });
+
   categories.map(async category => {
     const { name, products } = category;
-
-    await categoryController.create(name);
-    const { id } = await categoryController.findId(name);
-    await productController.create(products, id, name);
+    await categoryController.create(name, scrapingId);
+    const { id: categoryId } = await categoryController.findId(name);
+    await productController.create(products, categoryId, name);
   });
 
-  return { categories };
+  return { id: scrapingId, categories };
 };
