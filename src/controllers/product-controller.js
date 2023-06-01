@@ -25,9 +25,7 @@ export class ProductController {
         select: {
           name: true,
           price: true,
-          position: true,
           link: true,
-          image: true,
         },
       });
 
