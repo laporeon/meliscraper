@@ -6,13 +6,17 @@
     "version": "1.0.0"
   },
   "tags": [],
+  "schemes": [
+    "https",
+    "http"
+  ],
   "paths": {
-    "/scraping": {
+    "/scrapings": {
       "post": {
         "tags": [
           "Scraper"
         ],
-        "summary": "Performs new scraping.",
+        "summary": "Performs a new scraping.",
         "description": "Performs a new scraping, saving fetched data into database and returning the result.",
         "responses": {
           "200": {
@@ -68,11 +72,29 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/scraping/{date}": {
+    "/scrapings/{date}": {
       "get": {
         "tags": [
           "Scraper"
