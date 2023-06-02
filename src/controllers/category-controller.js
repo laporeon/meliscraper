@@ -70,7 +70,7 @@ export class CategoryController {
       return res.status(200).json({ status: 'OK', data: { categories } });
     } catch (err) {
       logger.error({
-        message: 'Error from [[ /categories ]] request',
+        message: 'Error from /categories request',
         error: err,
       });
       return res.json({ error: err.message });
@@ -119,7 +119,7 @@ export class CategoryController {
       });
     } catch (err) {
       logger.error({
-        message: 'Error from [[ /categories/:id/products ]] request',
+        message: 'Error from /categories/:id/products request',
         error: err,
       });
       return res.status(500).json({ status: 'ERROR', message: err.message });

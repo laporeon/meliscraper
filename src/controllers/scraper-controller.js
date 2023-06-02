@@ -1,4 +1,5 @@
 import { prisma } from '../database/prisma.js';
+import { date } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
 import { scraper } from '../utils/scraper.js';
 
@@ -6,6 +7,21 @@ export class ScrapController {
   async create(req, res) {
     try {
       logger.info('New scraping requested.');
+
+      const hasDate = await prisma.scraping.findFirst({
+        where: {
+          date: {
+            equals: new Date(date),
+          },
+        },
+      });
+
+      if (hasDate) {
+        return res.status(400).json({
+          status: 'error',
+          message: `A scraping for ${date} was already found at database. To see results, please go to /scrapings/{date}.`,
+        });
+      }
 
       const scraping = await scraper();
 
@@ -21,7 +37,7 @@ export class ScrapController {
       });
     } catch (err) {
       logger.error({
-        message: 'Error from [[ /scraping ]] request',
+        message: 'Error from /scraping request',
         error: err,
       });
       return res.status(500).json({ error: err.message });
@@ -29,13 +45,14 @@ export class ScrapController {
   }
 
   async getByDate(req, res) {
-    console.log({ params: req.params });
     try {
       const { date } = req.params;
 
       const result = await prisma.scraping.findMany({
         where: {
-          date,
+          date: {
+            equals: new Date(date),
+          },
         },
         include: {
           categories: {
@@ -59,8 +76,9 @@ export class ScrapController {
       });
     } catch (err) {
       logger.error({
-        message: 'Error from [[ /scraping/:date ]] request',
+        message: 'Error from /scraping/:date request',
         error: err,
+        params: { date },
       });
       return res.status(500).json({ error: err.message });
     }

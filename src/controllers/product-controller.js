@@ -33,7 +33,7 @@ export class ProductController {
         return res.json({
           error: 'NOT_FOUND',
           message:
-            'No products available. Please, perform your first scraping using /scraper route and try this operation again.',
+            'No products available. Please, perform your first scraping using /scrapings route and try this operation again.',
         });
 
       return res.status(200).json({ status: 'OK', data: { products } });
