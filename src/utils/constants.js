@@ -5,7 +5,7 @@ export const CONSTANTS = {
   filePath: `./src/data/${date}.json`,
   categoriesSectionClass: '.dynamic__carousel',
   categoryTitleClass: '.dynamic__carousel-title',
-  productCardClass: '.dynamic-carousel__item-container', // aqui
+  productCardClass: '.dynamic-carousel__item-container',
   productPositionClass:
     '.dynamic-carousel__pill-container--text.dynamic-carousel__pill-container--text-best-seller',
   productNameClass: '.dynamic-carousel__title',
