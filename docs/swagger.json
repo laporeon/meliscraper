@@ -73,7 +73,7 @@
               }
             }
           },
-          "400": {
+          "409": {
             "description": "Conflict",
             "content": {
               "application/json": {
