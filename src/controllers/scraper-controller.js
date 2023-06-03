@@ -17,7 +17,7 @@ export class ScrapController {
       });
 
       if (hasDate) {
-        return res.status(400).json({
+        return res.status(409).json({
           status: 'error',
           message: `A scraping for ${date} was already found at database. To see results, please go to /scrapings/{date}.`,
         });
@@ -29,8 +29,8 @@ export class ScrapController {
         'Scraping successfully performed and data saved into database.',
       );
 
-      return res.status(200).json({
-        status: 'success',
+      return res.status(201).json({
+        status: 'created',
         message:
           'Scraping was successfully performed and current data saved into database.',
         scraping,
