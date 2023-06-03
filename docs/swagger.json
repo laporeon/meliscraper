@@ -19,8 +19,8 @@
         "summary": "Performs a new scraping.",
         "description": "Performs a new scraping, saving fetched data into database and returning the result.",
         "responses": {
-          "200": {
-            "description": "Returns result.",
+          "201": {
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
@@ -74,7 +74,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
@@ -111,7 +111,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns scraping result by date.",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -173,7 +173,7 @@
         "description": "Returns a list of all categories stored at the time, including id, name and slug.",
         "responses": {
           "200": {
-            "description": "A list of categories.",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -210,7 +210,7 @@
             }
           },
           "404": {
-            "description": "Not Found Error.",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -247,7 +247,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of category products.",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -295,7 +295,7 @@
         "description": "Returns a list of all products stored at database.",
         "responses": {
           "200": {
-            "description": "A list of products.",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -332,7 +332,7 @@
             }
           },
           "404": {
-            "description": "Not Found Error.",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
