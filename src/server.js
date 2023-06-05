@@ -1,18 +1,35 @@
-import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
 
-const port = 3000 || process.env.PORT;
+import 'dotenv/config';
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 
-const server = createServer((req, res) => {
-  res.writeHead(200, {
-    'Content-Type': 'application/json',
+import {
+  scrapRoutes,
+  categoriesRoutes,
+  productsRoutes,
+} from './routes/index.js';
+import { logger } from './utils/logger.js';
+
+const app = express();
+
+const PORT = process.env.PORT | 3000;
+
+const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
+
+app.use('/scrapings', scrapRoutes);
+app.use('/categories', categoriesRoutes);
+app.use('/products', productsRoutes);
+
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+app.get('/', async (req, res) => {
+  res.json({
+    message:
+      'Hello! Welcome to Meliscraper API. To see full documentation, please go to /documentation route.',
   });
-  res.end(
-    JSON.stringify({
-      message: 'Hello World!',
-    }),
-  );
 });
 
-server.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+app.listen(PORT, () => {
+  logger.info(`Server is running on http://localhost:${PORT}`);
 });
