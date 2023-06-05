@@ -15,7 +15,10 @@
     "prepare": "husky install",
     "prisma:migrate": "npx prisma migrate dev"
   },
-  "keywords": ["scraper", "mercado livre"],
+  "keywords": [
+    "scraper",
+    "mercado livre"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -31,6 +34,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "pino": "^8.14.1",
