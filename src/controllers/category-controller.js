@@ -103,14 +103,14 @@ export class CategoryController {
         },
         select: {
           name: true,
-          image: true,
+          link: true,
         },
       });
 
       if (products.length < 1)
         return res.status(404).json({
           status: 'NOT_FOUND',
-          message: `No products found for id. Please, perform your first scraping and try again later.`,
+          message: `No products found for id ${id}. Please, verify the id and try again.`,
         });
 
       return res.json({
@@ -121,6 +121,7 @@ export class CategoryController {
       logger.error({
         message: 'Error from /categories/:id/products request',
         error: err,
+        params: req.params,
       });
       return res.status(500).json({ status: 'ERROR', message: err.message });
     }
