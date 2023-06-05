@@ -160,6 +160,24 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -239,7 +257,7 @@
         "description": "Returns a list of all the products related to the category. CategoryId is required.",
         "parameters": [
           {
-            "name": "categoryId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -270,7 +288,7 @@
                               "name": {
                                 "type": "string"
                               },
-                              "image": {
+                              "link": {
                                 "type": "string"
                               }
                             }
