@@ -12,15 +12,7 @@ const categoryController = new CategoryController();
 const productController = new ProductController();
 
 export const scraper = async () => {
-  const executablePath =
-    process.env.NODE_ENV === 'production'
-      ? process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath();
-
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath,
-  });
+  const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
   await page.goto(CONSTANTS.appURL, {
