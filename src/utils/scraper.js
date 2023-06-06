@@ -18,6 +18,7 @@ export const scraper = async () => {
       : puppeteer.executablePath();
 
   const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     executablePath,
   });
   const page = await browser.newPage();
