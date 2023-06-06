@@ -1,5 +1,5 @@
 {
-  "name": "nodeplate",
+  "name": "meliscraper",
   "version": "1.0.0",
   "description": "A web scraper for Mercado Livre best sellers.",
   "main": "./src/server.js",
