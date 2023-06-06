@@ -17,6 +17,9 @@ export class ScrapController {
       });
 
       if (hasDate) {
+        logger.warn(
+          `Scraping was not performed because a scraping for ${date} was already found at database.`,
+        );
         return res.status(409).json({
           status: 'error',
           message: `A scraping for ${date} was already found at database. To see results, please go to /scrapings/{date}.`,
