@@ -12,7 +12,7 @@ const categoryController = new CategoryController();
 const productController = new ProductController();
 
 export const scraper = async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
   await page.goto(CONSTANTS.appURL, {

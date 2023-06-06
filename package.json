@@ -1,17 +1,24 @@
 {
-  "name": "nodeplate",
+  "name": "meliscraper",
   "version": "1.0.0",
-  "description": "A minimal boilerplate for Node.js with ESLint and Prettier.",
+  "description": "A web scraper for Mercado Livre best sellers.",
   "main": "./src/server.js",
   "type": "module",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "start": "node --watch ./src/server.js",
     "format": "prettier --write src/**",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --fix --ext .js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prisma:migrate": "npx prisma migrate dev"
   },
-  "keywords": [],
+  "keywords": [
+    "scraper",
+    "mercado livre"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -27,6 +34,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "pino": "^8.14.1",
