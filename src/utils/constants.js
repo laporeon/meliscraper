@@ -1,8 +1,5 @@
-import { date } from './date.js';
-
 export const CONSTANTS = {
   appURL: 'https://www.mercadolivre.com.br/mais-vendidos',
-  filePath: `./src/data/${date}.json`,
   categoriesSectionClass: '.dynamic__carousel',
   categoryTitleClass: '.dynamic__carousel-title',
   productCardClass: '.dynamic-carousel__item-container',
