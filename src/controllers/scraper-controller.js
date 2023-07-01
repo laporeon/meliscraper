@@ -1,5 +1,5 @@
 import { prisma } from '../database/prisma.js';
-import { date } from '../utils/date.js';
+import { currentDate } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
 import { scraper } from '../utils/scraper.js';
 
@@ -11,18 +11,18 @@ export class ScrapController {
       const hasDate = await prisma.scraping.findFirst({
         where: {
           date: {
-            equals: new Date(date),
+            equals: new Date(currentDate),
           },
         },
       });
 
       if (hasDate) {
         logger.warn(
-          `Scraping was not performed because a scraping for ${date} was already found at database.`,
+          `Scraping was not performed because a scraping for ${currentDate} was already found at database.`,
         );
         return res.status(409).json({
           status: 'error',
-          message: `A scraping for ${date} was already found at database. To see results, please go to /scrapings/{date}.`,
+          message: `A scraping for ${currentDate} was already found at database. To see results, please go to /scrapings/{date}.`,
         });
       }
 
@@ -87,7 +87,7 @@ export class ScrapController {
       logger.error({
         message: 'Error from /scraping/:date request',
         error: err,
-        params: { date },
+        params: { date: req.params },
       });
       return res.status(500).json({ error: err.message });
     }

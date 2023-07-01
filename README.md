@@ -11,7 +11,6 @@
 
 Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very complex project, but it is my first most complete project. I tried to implement simple things that I never used before, such as linters and a better way to deal with logs. I also decide to use two databases: PostgreSQL for relational data and MongoDB for application logs.
 
-
 ## Table of Contents
 
 - [Technologies](#technologies)
@@ -61,12 +60,11 @@ Since the application uses two different databases, you'll need to create a [Pos
 
 Rename the `.env.example` file to `.env` and update the variables with your settings.
 
-|key|description|default
-|---|---|---
-|PORT|Port number where the app will run.|`3000`
-|DATABASE_URL| Your PostgreSQL database connection URL.|`postgresql://<username>:<password>@localhost:5432/<database>`
-|LOGS_DATABASE_URL| Your MongoDB database connection URL.|`mongodb://localhost:27017/<database>`
-
+| key               | description                              | default                                                        |
+| ----------------- | ---------------------------------------- | -------------------------------------------------------------- |
+| PORT              | Port number where the app will run.      | `3000`                                                         |
+| DATABASE_URL      | Your PostgreSQL database connection URL. | `postgresql://<username>:<password>@localhost:5432/<database>` |
+| LOGS_DATABASE_URL | Your MongoDB database connection URL.    | `mongodb://localhost:27017/<database>`                         |
 
 #### **Migrations**
 
@@ -86,15 +84,14 @@ $ npm start
 
 ### **Routes**
 
-| route            | HTTP method |  params  |         description         |
-| :--------------- | :---------: | :------: | :-------------------------: |
-| `/documentation`         |     GET     |    -     | Swagger documentation. |
-| `/scrapings`         |     POST     |    -     | Performs a new scraping. |
-| `/scrapings/{date}`         |     GET     |    `:date`    | Searches scraping by date. |
-| `/categories` |     GET     | - | List all categories. |
-| `/categories/{id}/products` |     GET     | `:id` | A list of all products related a category id.|
-| `/products` |     GET     | - | List all products. |
-
+| route                       | HTTP method | params  |                  description                  |
+| :-------------------------- | :---------: | :-----: | :-------------------------------------------: |
+| `/documentation`            |     GET     |    -    |            Swagger documentation.             |
+| `/scrapings`                |    POST     |    -    |           Performs a new scraping.            |
+| `/scrapings/{date}`         |     GET     | `:date` |  Searches scraping by date, e.g. YYYY-MM-DD   |
+| `/categories`               |     GET     |    -    |             List all categories.              |
+| `/categories/{id}/products` |     GET     |  `:id`  | A list of all products related a category id. |
+| `/products`                 |     GET     |    -    |              List all products.               |
 
 <br/>
 

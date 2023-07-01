@@ -6,16 +6,11 @@
     "version": "1.0.0"
   },
   "tags": [],
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "schemes": ["https", "http"],
   "paths": {
     "/scrapings": {
       "post": {
-        "tags": [
-          "Scraper"
-        ],
+        "tags": ["Scraper"],
         "summary": "Performs a new scraping.",
         "description": "Performs a new scraping, saving fetched data into database and returning the result.",
         "responses": {
@@ -96,11 +91,9 @@
     },
     "/scrapings/{date}": {
       "get": {
-        "tags": [
-          "Scraper"
-        ],
+        "tags": ["Scraper"],
         "summary": "Searches scraping by date.",
-        "description": "Searches and returns  the result of scraping for a specific date.",
+        "description": "Searches and returns  the result of scraping for a specific date. Date format must be YYYY-MM-DD.",
         "parameters": [
           {
             "name": "date",
@@ -184,9 +177,7 @@
     },
     "/categories": {
       "get": {
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "summary": "A list of categories.",
         "description": "Returns a list of all categories stored at the time, including id, name and slug.",
         "responses": {
@@ -250,9 +241,7 @@
     },
     "/categories/{id}/products": {
       "get": {
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "summary": "Category products.",
         "description": "Returns a list of all the products related to the category. CategoryId is required.",
         "parameters": [
@@ -306,9 +295,7 @@
     },
     "/products": {
       "get": {
-        "tags": [
-          "Product"
-        ],
+        "tags": ["Product"],
         "summary": "A list of products.",
         "description": "Returns a list of all products stored at database.",
         "responses": {
