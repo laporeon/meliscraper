@@ -9,7 +9,7 @@
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Meliscraper&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flaporeon%2Fmeliscraper%2Fmainnp%2FInsomnia_2023-06-06.json)
 
-Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very complex project, but it is my first most complete project. I tried to implement simple things that I never used before, such as linters and a better way to deal with logs. I also decide to use two databases: PostgreSQL for relational data and MongoDB for application logs.
+Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very complex project, but it is my first most complete project. I tried to implement simple things that I never used before, such as linters, set up CORS and a better way to deal with logs. I also decide to use two databases: PostgreSQL for relational data and MongoDB for application logs.
 
 ## Table of Contents
 
