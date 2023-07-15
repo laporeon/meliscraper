@@ -8,7 +8,7 @@ import { logger } from './utils/logger.js';
 const PORT = process.env.PORT | 3000;
 
 const corsOptions = {
-  origin: ['http://localhost:${PORT}', 'https://meliscraper.onrender.com/'],
+  origin: 'http://localhost:${PORT}',
   methods: 'GET,HEAD,POST',
   optionsSuccessStatus: 204,
 };
