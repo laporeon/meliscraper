@@ -62,12 +62,11 @@ export class CategoryController {
 
       if (categories.length < 1)
         return res.status(404).json({
-          error: 'NOT_FOUND',
           message:
             'No categories available. Please, perform your first scraping using /scraper route and try this operation again.',
         });
 
-      return res.status(200).json({ status: 'OK', data: { categories } });
+      return res.status(200).json({ categories });
     } catch (err) {
       logger.error({
         message: 'Error from /categories request',
@@ -89,32 +88,33 @@ export class CategoryController {
 
   async findProducts(req, res) {
     try {
-      const { id } = req.params;
+      const { slug } = req.params;
 
       const { name } = await prisma.category.findFirst({
         where: {
-          id,
+          slug,
         },
       });
 
       const products = await prisma.product.findMany({
         where: {
-          categoryId: id,
+          Category: {
+            name,
+          },
         },
         select: {
           name: true,
           link: true,
+          image: true,
         },
       });
 
       if (products.length < 1)
         return res.status(404).json({
-          status: 'NOT_FOUND',
-          message: `No products found for id ${id}. Please, verify the id and try again.`,
+          message: `No products found for category ${slug}. Please, check the slug and try again.`,
         });
 
       return res.json({
-        status: 'SUCCESS',
         data: { category: name, products },
       });
     } catch (err) {
