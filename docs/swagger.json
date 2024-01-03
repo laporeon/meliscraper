@@ -21,9 +21,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "message": {
                       "type": "string"
                     },
@@ -75,9 +72,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "message": {
                       "type": "string"
                     }
@@ -110,9 +104,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "data": {
                       "type": "object",
                       "properties": {
@@ -161,9 +152,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "message": {
                       "type": "string"
                     }
@@ -188,27 +176,19 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "categories": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string"
-                              },
-                              "name": {
-                                "type": "string"
-                              },
-                              "slug": {
-                                "type": "string"
-                              }
-                            }
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
                           }
                         }
                       }
@@ -225,9 +205,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "message": {
                       "type": "string"
                     }
@@ -239,14 +216,14 @@
         }
       }
     },
-    "/categories/{id}/products": {
+    "/categories/{slug}/products": {
       "get": {
         "tags": ["Category"],
         "summary": "Category products.",
-        "description": "Returns a list of all the products related to the category. CategoryId is required.",
+        "description": "Returns a list of all the products related to the category. CategorySlug is required.",
         "parameters": [
           {
-            "name": "id",
+            "name": "slug",
             "in": "path",
             "required": true,
             "type": "string"
@@ -260,9 +237,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
                     "data": {
                       "type": "object",
                       "properties": {
@@ -279,75 +253,14 @@
                               },
                               "link": {
                                 "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/products": {
-      "get": {
-        "tags": ["Product"],
-        "summary": "A list of products.",
-        "description": "Returns a list of all products stored at database.",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "products": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
                               },
-                              "price": {
-                                "type": "number"
-                              },
-                              "link": {
+                              "image": {
                                 "type": "string"
                               }
                             }
                           }
                         }
                       }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
                     }
                   }
                 }
