@@ -21,7 +21,6 @@ export class ScrapController {
           `Scraping was not performed because a scraping for ${currentDate} was already found at database.`,
         );
         return res.status(409).json({
-          status: 'error',
           message: `A scraping for ${currentDate} was already found at database. To see results, please go to /scrapings/{date}.`,
         });
       }
@@ -33,7 +32,6 @@ export class ScrapController {
       );
 
       return res.status(201).json({
-        status: 'created',
         message:
           'Scraping was successfully performed and current data saved into database.',
         scraping,
@@ -75,12 +73,10 @@ export class ScrapController {
 
       if (!result)
         return res.status(404).json({
-          status: 'NOT FOUND',
           message: `No scraping was found for date ${date}.`,
         });
 
       return res.status(200).json({
-        status: 'success',
         result,
       });
     } catch (err) {

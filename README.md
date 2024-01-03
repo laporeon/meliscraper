@@ -84,14 +84,13 @@ $ npm start
 
 ### **Routes**
 
-| route                       | HTTP method | params  |                  description                  |
-| :-------------------------- | :---------: | :-----: | :-------------------------------------------: |
-| `/documentation`            |     GET     |    -    |            Swagger documentation.             |
-| `/scrapings`                |    POST     |    -    |           Performs a new scraping.            |
-| `/scrapings/{date}`         |     GET     | `:date` |  Searches scraping by date, e.g. YYYY-MM-DD   |
-| `/categories`               |     GET     |    -    |             List all categories.              |
-| `/categories/{id}/products` |     GET     |  `:id`  | A list of all products related a category id. |
-| `/products`                 |     GET     |    -    |              List all products.               |
+| route                         | HTTP method | params  |                    description                    |
+| :---------------------------- | :---------: | :-----: | :-----------------------------------------------: |
+| `/documentation`              |     GET     |    -    |              Swagger documentation.               |
+| `/scrapings`                  |    POST     |    -    |             Performs a new scraping.              |
+| `/scrapings/{date}`           |     GET     | `:date` |    Searches scraping by date, e.g. YYYY-MM-DD     |
+| `/categories`                 |     GET     |    -    |               List all categories.                |
+| `/categories/{slug}/products` |     GET     | `:slug` | A list of all products related a single category. |
 
 <br/>
 

@@ -12,7 +12,7 @@ const categoryController = new CategoryController();
 const productController = new ProductController();
 
 export const scraper = async () => {
-  const browser = await puppeteer.launch({});
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   await page.goto(CONSTANTS.appURL, {
@@ -30,7 +30,7 @@ export const scraper = async () => {
 
       const products = Array.from(
         category.querySelectorAll(CONSTANTS.productCardClass),
-      );
+      ).slice(0, 5);
 
       return {
         name: categoryName,
