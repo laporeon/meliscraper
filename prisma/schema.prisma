@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Scraping {
+  id   String   @id @default(uuid())
+  date DateTime @default(now()) @db.Date
+
+  categories Category[]
+
+  @@map("scrapings")
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  slug       String
+  created_at DateTime @default(now())
+
+  products  Product[]
+  scrapings Scraping[]
+
+  @@map("categories")
+}
+
+model Product {
+  id         String   @id @default(uuid())
+  position   Int
+  name       String
+  image      String
+  price      Float
+  link       String
+  categoryId String
+  created_at DateTime @default(now())
+
+  Category Category? @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
+}
