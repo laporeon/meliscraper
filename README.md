@@ -70,6 +70,8 @@ Run the following script to create database migrations:
 $ npm run prisma:migrate
 ```
 
+## **Usage**
+
 ### **Starting**
 
 ```bash
