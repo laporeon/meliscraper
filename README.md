@@ -5,7 +5,7 @@
 ![mongodb](https://img.shields.io/static/v1?label=mongodb&message=6.0.6&color=2d3748&logo=mongodb&style=flat-square)
 ![prisma](https://img.shields.io/static/v1?label=prisma&message=4.13.0&color=2d3748&logo=prisma&style=flat-square)
 [![eslint](https://img.shields.io/badge/eslint-8.31.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
-[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/daspeon/teste/main/LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/daspeon/meliscraper/main/LICENSE)
 
 Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very complex project, but it is my first most complete project. I tried to implement simple things that I never used before, such as linters, set up CORS and a better way to deal with logs. I also decide to use two databases: PostgreSQL for relational data and MongoDB for application logs.
 
