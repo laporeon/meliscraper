@@ -12,12 +12,12 @@ Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very c
 ## Table of Contents
 
 - [Technologies](#technologies)
-- [Usage](#usage)
-  - [Requirements](#requirements)
-  - [Installing](#installing)
+- [Requirements](#requirements)
+- [Installing](#installing)
   - [Configuring](#configuring)
     - [.env](#env)
     - [Migrations](#migrations)
+- [Usage](#usage)
   - [Starting](#starting)
   - [Routes](#routes)
     <br/>
@@ -30,13 +30,11 @@ Meliscraper is a web scraper for Mercado Livre best sellers. This isn't a very c
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-## Usage
-
-### **Requirements:**
+## **Requirements:**
 
 - [NodeJS](https://nodejs.org/en) v.18.x.x or higher
 
-### **Installing:**
+## **Installing:**
 
 Yarn:
 
