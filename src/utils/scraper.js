@@ -5,7 +5,6 @@ import puppeteer from 'puppeteer';
 import { CategoryController } from '../controllers/category-controller.js';
 import { ProductController } from '../controllers/product-controller.js';
 import { prisma } from '../database/prisma.js';
-
 import { CONSTANTS } from './constants.js';
 
 const categoryController = new CategoryController();
