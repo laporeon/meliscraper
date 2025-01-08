@@ -11,8 +11,9 @@ datasource db {
 }
 
 model Scraping {
-  id   String   @id @default(uuid())
-  date DateTime @default(now()) @db.Date
+  id        String   @id @default(uuid())
+  date      DateTime @default(now()) @db.Date
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
 
   categories Category[]
 
@@ -20,10 +21,11 @@ model Scraping {
 }
 
 model Category {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  slug       String
-  created_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
   products  Product[]
   scrapings Scraping[]
@@ -36,10 +38,11 @@ model Product {
   position   Int
   name       String
   image      String
-  price      Float
+  price      Int
   link       String
   categoryId String
-  created_at DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(3)
 
   Category Category? @relation(fields: [categoryId], references: [id])
 
