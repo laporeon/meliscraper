@@ -8,6 +8,6 @@ export const CONSTANTS = {
   productNameClass: '.dynamic-carousel__title',
   productImageClass: '.dynamic-carousel__img',
   productMainPriceClass: '.dynamic-carousel__price > span',
-  productDecimalPriceClass: '.dynamic-carousel__price > sup',
+  productDecimalPriceClass: '.dynamic-carousel__price-decimals',
   productLinkClass: '.dynamic-carousel__item-container > a',
 };
