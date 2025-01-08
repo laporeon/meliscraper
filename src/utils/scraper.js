@@ -29,27 +29,29 @@ export const scraper = async () => {
 
       const products = Array.from(
         category.querySelectorAll(CONSTANTS.productCardClass),
-      ).slice(0, 5);
+      ).slice(0, 10);
 
       return {
         name: categoryName,
         products: products.map((product, index) => {
-          //TODO find a better way to deal with prices
-          const value = product
-            .querySelector(CONSTANTS.productMainPriceClass)
-            .innerText.replace('R$ ', '')
-            .replace('.', '');
-          const decimal =
-            product.querySelector(CONSTANTS.productDecimalPriceClass)
-              ?.innerText || 0;
-
           return {
             position: index + 1,
             name: product.querySelector(CONSTANTS.productNameClass).textContent,
-            image: product
-              .querySelector(CONSTANTS.productImageClass)
-              .getAttribute('src'),
-            price: Number(`${value}.${decimal}`),
+            image:
+              product
+                .querySelector(CONSTANTS.productImageClass)
+                .getAttribute('data-src') ||
+              product
+                .querySelector(CONSTANTS.productImageClass)
+                .getAttribute('src'),
+            price: parseInt(
+              product
+                .querySelector(CONSTANTS.productMainPriceClass)
+                .textContent.replace(/[^\d]/g, '') +
+                (product.querySelector(CONSTANTS.productDecimalPriceClass)
+                  ?.textContent || '00'),
+              10,
+            ),
             link: product
               .querySelector(CONSTANTS.productLinkClass)
               .getAttribute('href'),
