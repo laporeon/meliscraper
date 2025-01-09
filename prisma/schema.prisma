@@ -15,7 +15,7 @@ model Scraping {
   date      DateTime @default(now()) @db.Date
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 
-  categories Category[]
+  products Product[]
 
   @@map("scrapings")
 }
@@ -27,8 +27,7 @@ model Category {
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
-  products  Product[]
-  scrapings Scraping[]
+  products Product[]
 
   @@map("categories")
 }
@@ -41,10 +40,13 @@ model Product {
   price      Int
   link       String
   categoryId String
+  scrapingId String
   createdAt  DateTime @default(now()) @db.Timestamptz(3)
   updatedAt  DateTime @updatedAt @db.Timestamptz(3)
 
-  Category Category? @relation(fields: [categoryId], references: [id])
+  Category Category @relation(fields: [categoryId], references: [id])
+
+  Scraping Scraping @relation(fields: [scrapingId], references: [id], onDelete: Cascade)
 
   @@map("products")
 }
