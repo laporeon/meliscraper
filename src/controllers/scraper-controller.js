@@ -69,8 +69,6 @@ export class ScrapController {
     try {
       const { date } = req.params;
 
-      console.log({ date });
-
       const result = await prisma.scraping.findFirst({
         where: {
           date: {
