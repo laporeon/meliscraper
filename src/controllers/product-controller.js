@@ -11,6 +11,7 @@ export class ProductController {
       link: product.link,
       categoryId,
     }));
+
     return products;
   }
 }
