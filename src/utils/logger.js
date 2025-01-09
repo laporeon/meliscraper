@@ -6,14 +6,7 @@ const transport = pino.transport({
       target: 'pino-pretty',
       options: {
         translateTime: 'SYS:standard',
-      },
-    },
-    {
-      target: 'pino-mongodb',
-      options: {
-        uri: process.env.LOGS_DATABASE_URL,
-        database: 'meliscraper',
-        collection: 'logs',
+        ignore: 'pid,hostname',
       },
     },
   ],
