@@ -69,7 +69,7 @@ export class ScrapController {
     try {
       const { date } = req.params;
 
-      const result = await prisma.scraping.findFirst({
+      const scraping = await prisma.scraping.findFirst({
         where: {
           date: {
             equals: new Date(date),
@@ -92,13 +92,13 @@ export class ScrapController {
         },
       });
 
-      if (!result)
+      if (!scraping)
         return res.status(404).json({
           message: `No scraping was found for date ${date}.`,
         });
 
       return res.status(200).json({
-        result,
+        scraping,
       });
     } catch (error) {
       logger.error({
