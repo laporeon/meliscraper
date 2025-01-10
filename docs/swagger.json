@@ -30,30 +30,52 @@
                         "id": {
                           "type": "string"
                         },
-                        "categories": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "products": {
                           "type": "array",
                           "items": {
                             "type": "object",
                             "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "position": {
+                                "type": "integer"
+                              },
                               "name": {
                                 "type": "string"
                               },
-                              "products": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "link": {
-                                      "type": "string"
-                                    },
-                                    "price": {
-                                      "type": "number"
-                                    }
-                                  }
-                                }
+                              "image": {
+                                "type": "string",
+                                "format": "uri"
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "link": {
+                                "type": "string",
+                                "format": "uri"
+                              },
+                              "categoryId": {
+                                "type": "string"
+                              },
+                              "scrapingId": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
                               }
                             }
                           }
@@ -86,8 +108,8 @@
     "/scrapings/{date}": {
       "get": {
         "tags": ["Scraper"],
-        "summary": "Searches scraping by date.",
-        "description": "Searches and returns  the result of scraping for a specific date. Date format must be YYYY-MM-DD.",
+        "summary": "Get scraping by date.",
+        "description": "Searches and returns the result of scraping for a specific date. Date format must be YYYY-MM-DD.",
         "parameters": [
           {
             "name": "date",
@@ -104,13 +126,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
+                    "scraping": {
                       "type": "object",
                       "properties": {
                         "date": {
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
-                        "categories": {
+                        "products": {
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -118,20 +141,18 @@
                               "name": {
                                 "type": "string"
                               },
-                              "slug": {
-                                "type": "string"
+                              "link": {
+                                "type": "string",
+                                "format": "uri"
                               },
-                              "products": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "link": {
-                                      "type": "string"
-                                    }
+                              "price": {
+                                "type": "number"
+                              },
+                              "Category": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
                                   }
                                 }
                               }
@@ -166,8 +187,8 @@
     "/categories": {
       "get": {
         "tags": ["Category"],
-        "summary": "A list of categories.",
-        "description": "Returns a list of all categories stored at the time, including id, name and slug.",
+        "summary": "List Categories",
+        "description": "Returns a list of all categories stored, including id, name and slug.",
         "responses": {
           "200": {
             "description": "Success",
@@ -219,7 +240,7 @@
     "/categories/{slug}/products": {
       "get": {
         "tags": ["Category"],
-        "summary": "Category products.",
+        "summary": "List products of a specific category",
         "description": "Returns a list of all the products related to the category. CategorySlug is required.",
         "parameters": [
           {
