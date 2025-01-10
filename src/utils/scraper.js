@@ -2,14 +2,7 @@
 
 import puppeteer from 'puppeteer';
 
-import { CategoryController } from '../controllers/category-controller.js';
-import { ProductController } from '../controllers/product-controller.js';
-import { prisma } from '../database/prisma.js';
-
 import { CONSTANTS } from './constants.js';
-
-const categoryController = new CategoryController();
-const productController = new ProductController();
 
 export const scraper = async () => {
   const browser = await puppeteer.launch({ headless: true });
@@ -30,27 +23,29 @@ export const scraper = async () => {
 
       const products = Array.from(
         category.querySelectorAll(CONSTANTS.productCardClass),
-      ).slice(0, 5);
+      ).slice(0, 10);
 
       return {
         name: categoryName,
         products: products.map((product, index) => {
-          //TODO find a better way to deal with prices
-          const value = product
-            .querySelector(CONSTANTS.productMainPriceClass)
-            .innerText.replace('R$ ', '')
-            .replace('.', '');
-          const decimal =
-            product.querySelector(CONSTANTS.productDecimalPriceClass)
-              ?.innerText || 0;
-
           return {
             position: index + 1,
             name: product.querySelector(CONSTANTS.productNameClass).textContent,
-            image: product
-              .querySelector(CONSTANTS.productImageClass)
-              .getAttribute('src'),
-            price: Number(`${value}.${decimal}`),
+            image:
+              product
+                .querySelector(CONSTANTS.productImageClass)
+                .getAttribute('data-src') ||
+              product
+                .querySelector(CONSTANTS.productImageClass)
+                .getAttribute('src'),
+            price: parseInt(
+              product
+                .querySelector(CONSTANTS.productMainPriceClass)
+                .textContent.replace(/[^\d]/g, '') +
+                (product.querySelector(CONSTANTS.productDecimalPriceClass)
+                  ?.textContent || '00'),
+              10,
+            ),
             link: product
               .querySelector(CONSTANTS.productLinkClass)
               .getAttribute('href'),
@@ -62,14 +57,5 @@ export const scraper = async () => {
 
   await browser.close();
 
-  const { id: scrapingId } = await prisma.scraping.create({ data: {} });
-
-  categories.map(async category => {
-    const { name, products } = category;
-    await categoryController.create(name, scrapingId);
-    const { id: categoryId } = await categoryController.findId(name);
-    await productController.create(products, categoryId, name);
-  });
-
-  return { id: scrapingId, categories };
+  return { categories };
 };

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+
 import cors from 'cors';
 import express from 'express';
 
@@ -18,13 +19,6 @@ const app = express();
 app.use(cors(corsOptions));
 
 app.use(routes);
-
-app.get('/', async (req, res) => {
-  res.json({
-    message:
-      'Hello! Welcome to Meliscraper API. To see full documentation, please go to /documentation route.',
-  });
-});
 
 app.listen(PORT, () => {
   logger.info(`Server is running on http://localhost:${PORT}`);

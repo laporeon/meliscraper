@@ -2,12 +2,15 @@ import { prisma } from '../database/prisma.js';
 import { currentDate } from '../utils/date.js';
 import { logger } from '../utils/logger.js';
 import { scraper } from '../utils/scraper.js';
+import { CategoryController } from './category-controller.js';
+import { ProductController } from './product-controller.js';
+
+const categoryController = new CategoryController();
+const productController = new ProductController();
 
 export class ScrapController {
   async create(req, res) {
     try {
-      logger.info('New scraping requested.');
-
       const hasDate = await prisma.scraping.findFirst({
         where: {
           date: {
@@ -17,31 +20,48 @@ export class ScrapController {
       });
 
       if (hasDate) {
-        logger.warn(
-          `Scraping was not performed because a scraping for ${currentDate} was already found at database.`,
-        );
         return res.status(409).json({
           message: `A scraping for ${currentDate} was already found at database. To see results, please go to /scrapings/{date}.`,
         });
       }
 
-      const scraping = await scraper();
+      const data = await scraper();
 
-      logger.info(
-        'Scraping successfully performed and data saved into database.',
+      const { categories } = data;
+
+      const products = await Promise.all(
+        categories.map(async category => {
+          const categoryId =
+            await categoryController.createOrConnectCategory(category);
+
+          return await productController.create(category, categoryId);
+        }),
       );
+
+      const scraping = await prisma.scraping.create({
+        data: {
+          products: {
+            create: products.flat(),
+          },
+        },
+        include: {
+          products: true,
+        },
+      });
 
       return res.status(201).json({
         message:
-          'Scraping was successfully performed and current data saved into database.',
+          'Scraping was successfully performed and current data saved into the database.',
         scraping,
       });
-    } catch (err) {
+    } catch (error) {
       logger.error({
-        message: 'Error from /scraping request',
-        error: err,
+        url: req.originalUrl,
+        method: req.method,
+        error: error.message,
+        stack: error.stack,
       });
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: error.message });
     }
   }
 
@@ -49,21 +69,22 @@ export class ScrapController {
     try {
       const { date } = req.params;
 
-      const result = await prisma.scraping.findFirst({
+      const scraping = await prisma.scraping.findFirst({
         where: {
           date: {
             equals: new Date(date),
           },
         },
-        include: {
-          categories: {
+        select: {
+          date: true,
+          products: {
             select: {
               name: true,
-              products: {
+              link: true,
+              price: true,
+              Category: {
                 select: {
                   name: true,
-                  link: true,
-                  price: true,
                 },
               },
             },
@@ -71,21 +92,22 @@ export class ScrapController {
         },
       });
 
-      if (!result)
+      if (!scraping)
         return res.status(404).json({
           message: `No scraping was found for date ${date}.`,
         });
 
       return res.status(200).json({
-        result,
+        scraping,
       });
-    } catch (err) {
+    } catch (error) {
       logger.error({
-        message: 'Error from /scraping/:date request',
-        error: err,
-        params: { date: req.params },
+        url: req.originalUrl,
+        method: req.method,
+        error: error.message,
+        stack: error.stack,
       });
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: error.message });
     }
   }
 }
