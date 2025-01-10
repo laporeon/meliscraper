@@ -2,8 +2,6 @@
 
 import puppeteer from 'puppeteer';
 
-import { CategoryController } from '../controllers/category-controller.js';
-import { ProductController } from '../controllers/product-controller.js';
 import { CONSTANTS } from './constants.js';
 
 export const scraper = async () => {
