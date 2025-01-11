@@ -21,7 +21,7 @@ export class ScrapController {
 
       if (hasDate) {
         return res.status(409).json({
-          message: `A scraping for ${currentDate} was already found at database. To see results, please go to /scrapings/{date}.`,
+          message: `A scraping for ${currentDate} was already found at database.`,
         });
       }
 
