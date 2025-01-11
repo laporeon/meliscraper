@@ -29,7 +29,7 @@ export class CategoryController {
       if (categories.length < 1)
         return res.status(404).json({
           message:
-            'No categories available. Please, perform your first scraping using /scraper route and try this operation again.',
+            'No categories available. Please, perform your first scraping using /scrapings route and try this operation again.',
         });
 
       return res.status(200).json({ categories });
