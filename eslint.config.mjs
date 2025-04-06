@@ -1,44 +1,39 @@
 import prettier from 'eslint-plugin-prettier';
-import importHelpers from 'eslint-plugin-import-helpers';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import prettierConfig from 'eslint-config-prettier';
-import typescriptParser from '@typescript-eslint/parser';
 
 export default [
   {
-    files: ['**/*.{ts,js,mjs}'],
+    files: ['src/**/*.js'],
     languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: './tsconfig.json',
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
       },
     },
     plugins: {
       prettier,
-      'import-helpers': importHelpers,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       ...prettierConfig.rules,
       'prettier/prettier': 'error',
-      'import-helpers/order-imports': [
-        'warn',
+      'no-console': 'off',
+      'simple-import-sort/imports': [
+        'error',
         {
-          newlinesBetween: 'always',
           groups: [
-            '/^node:/',
-            'module',
-            '/^@/',
-            ['parent', 'sibling', 'index'],
+            ['^\\u0000'],
+            ['^node:'],
+            ['^@?\\w'],
+            ['^@/'],
+            ['^\\.\\.', '^\\.'],
           ],
-          alphabetize: {
-            order: 'asc',
-            ignoreCase: true,
-          },
         },
       ],
-      'no-console': 'off',
     },
-    ignores: ['eslint.config.mjs', 'node_modules'],
+    ignores: ['**/*.config.js', 'node_modules'],
   },
 ];
