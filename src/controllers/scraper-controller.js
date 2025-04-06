@@ -35,7 +35,7 @@ export class ScrapController {
             await categoryController.createOrConnectCategory(category);
 
           return await productController.create(category, categoryId);
-        }),
+        })
       );
 
       const scraping = await prisma.scraping.create({

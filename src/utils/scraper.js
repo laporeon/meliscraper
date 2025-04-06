@@ -15,14 +15,14 @@ export const scraper = async () => {
 
   const categories = await page.evaluate(async CONSTANTS => {
     return Array.from(
-      document.querySelectorAll(CONSTANTS.categoriesSectionClass),
+      document.querySelectorAll(CONSTANTS.categoriesSectionClass)
     ).map(category => {
       const categoryName = category.querySelector(
-        CONSTANTS.categoryTitleClass,
+        CONSTANTS.categoryTitleClass
       ).textContent;
 
       const products = Array.from(
-        category.querySelectorAll(CONSTANTS.productCardClass),
+        category.querySelectorAll(CONSTANTS.productCardClass)
       ).slice(0, 10);
 
       return {
@@ -44,7 +44,7 @@ export const scraper = async () => {
                 .textContent.replace(/[^\d]/g, '') +
                 (product.querySelector(CONSTANTS.productDecimalPriceClass)
                   ?.textContent || '00'),
-              10,
+              10
             ),
             link: product
               .querySelector(CONSTANTS.productLinkClass)
