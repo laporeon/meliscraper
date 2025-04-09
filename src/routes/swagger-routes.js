@@ -1,12 +1,21 @@
-import { readFileSync } from 'node:fs';
-
 import { Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-const swaggerDocs = JSON.parse(readFileSync('./docs/swagger.json'));
+import { swagger } from '../../docs/swagger.js';
 
 const routes = Router();
 
-routes.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const options = {
+  swaggerOptions: {
+    defaultModelsExpandDepth: -1,
+    defaultModelExpandDepth: -1,
+  },
+};
+
+routes.use(
+  '/documentation',
+  swaggerUi.serve,
+  swaggerUi.setup(swagger, options)
+);
 
 export { routes as swaggerRoutes };
