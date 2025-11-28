@@ -18,7 +18,6 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
       POSTGRES_DB: "${POSTGRES_DB:-meliscraper}"
       POSTGRES_HOST: postgresql
-      POSTGRES_PORT: 5432
     networks:
       - meliscraper-api-network
 
@@ -33,9 +32,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      PORT: "${PORT:-8080}"
-      POSTGRES_HOST: postgresql
-      POSTGRES_PORT: 5432
       POSTGRES_USER: "${POSTGRES_USER:-admin}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
       POSTGRES_DB: "${POSTGRES_DB:-meliscraper}"
