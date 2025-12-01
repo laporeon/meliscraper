@@ -3,8 +3,10 @@ package com.laporeon.meliscraper.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,23 +16,23 @@ import java.util.UUID;
 @Table(name = "categories")
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false, unique = true)
     private String slug;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "snapshot_id", nullable = false, foreignKey = @ForeignKey(name = "fk_category_snapshot"))
-    private Snapshot snapshot;
+    @ManyToMany(mappedBy = "categories")
+    private List<Snapshot> snapshots;
 }
