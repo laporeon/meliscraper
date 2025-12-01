@@ -1,7 +1,15 @@
 package com.laporeon.meliscraper.controllers;
 
+import com.laporeon.meliscraper.dtos.ErrorResponseDTO;
 import com.laporeon.meliscraper.dtos.SnapshotDTO;
+import com.laporeon.meliscraper.helpers.SwaggerConstants;
 import com.laporeon.meliscraper.services.SnapshotService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +21,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/snapshots")
 @RequiredArgsConstructor
+@Tag(name = "Snapshots")
 public class SnapshotController {
 
     private final SnapshotService snapshotService;
 
+    @Operation(
+            summary = "Get daily snapshot",
+            description = "Retrieves the daily snapshot if it exists. Otherwise, creates a new snapshot for the current date " +
+                    "and returns its data. Ensures a unique snapshot per day to avoid duplicates and provides associated category information.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK",
+                            content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SnapshotDTO.class),
+                            examples = @ExampleObject(value = SwaggerConstants.SNAPSHOT_RESPONSE_EXAMPLE))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+            }
+    )
     @GetMapping
     public ResponseEntity<SnapshotDTO> getSnapshot() {
         SnapshotDTO snapshotDTO = snapshotService.getSnapshot();
