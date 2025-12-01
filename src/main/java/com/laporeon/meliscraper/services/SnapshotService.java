@@ -43,7 +43,7 @@ public class SnapshotService {
                                                    .collect(Collectors.toList());
 
         return new SnapshotDTO(snapshot.getId(),
-                               snapshot.getSnapshotDate(), snapshot.getCreatedAt(),
+                               snapshot.getSnapshotDate(),
                                categoryDTOs);
     }
 
