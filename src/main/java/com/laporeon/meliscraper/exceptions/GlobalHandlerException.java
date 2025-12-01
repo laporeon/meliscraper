@@ -17,7 +17,7 @@ public class GlobalHandlerException {
         ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.name(),
-                "An unexpected error occured",
+                "An unexpected error occurred",
                 Instant.now()
         );
 
