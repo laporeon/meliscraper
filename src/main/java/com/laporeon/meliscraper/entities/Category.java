@@ -2,10 +2,8 @@ package com.laporeon.meliscraper.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,10 +27,6 @@ public class Category {
     @Column(length = 50, nullable = false, unique = true)
     private String slug;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @ManyToMany(mappedBy = "categories")
-    private List<Snapshot> snapshots;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
 }
