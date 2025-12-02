@@ -9,15 +9,43 @@ public class SwaggerConstants {
             "categories": [
                 {
                     "name": "Games",
-                    "slug": "games"
+                    "slug": "games",
+                    "products": [
+                        {
+                            "position": 1,
+                            "name": "Controle joystick sem fio Sony PlayStation Dualshock 4 Wireless controller alpine green",
+                            "image": "https://http2.mlstatic.com/D_Q_NP_920572-MLA99508236810_112025-P.webp",
+                            "price": 281,
+                            "link": "https://www.mercadolivre.com.br/controle-joystick-sem-fio-sony-playstation-dualshock-4-wireless-controller-alpine-green/p/MLB15085751"
+                        },
+                        {
+                            "position": 2,
+                            "name": "Controle DualSense Sem Fio PlayStation 5 Joystick Starlight Blue Sony CFI-ZCT1W",
+                            "image": "https://http2.mlstatic.com/D_Q_NP_866848-MLA96150740853_102025-P.webp",
+                            "price": 438.18,
+                            "link": "https://www.mercadolivre.com.br/controle-dualsense-sem-fio-playstation-5-joystick-starlight-blue-sony-cfi-zct1w/p/MLB18910381"
+                        }
+                    ]
                 },
                 {
                     "name": "Informática",
-                    "slug": "informatica"
-                },
-                {
-                    "name": "Esportes e Fitness",
-                    "slug": "esportes-e-fitness"
+                    "slug": "informatica",
+                    "products": [
+                        {
+                            "position": 1,
+                            "name": "Mochila Reforçada Pack Young Meimi Amores Notebook 15.6 Cor Preto",
+                            "image": "https://http2.mlstatic.com/D_Q_NP_751105-MLA99906883639_112025-P.webp",
+                            "price": 60.72,
+                            "link": "https://www.mercadolivre.com.br/mochila-reforcada-pack-young-meimi-amores-notebook-156-cor-preto/p/MLB28665287"
+                        },
+                        {
+                            "position": 2,
+                            "name": "Controle de joystick sem fio Dualsense Ps5 azul cobalto",
+                            "image": "Controle de joystick sem fio Dualsense Ps5 azul cobalto   ",
+                            "price": 525.54,
+                            "link": "https://www.mercadolivre.com.br/controle-de-joystick-sem-fio-dualsense-ps5-azul-cobalto/p/MLB28083897"
+                        }
+                    ]
                 }
             ]
         }
