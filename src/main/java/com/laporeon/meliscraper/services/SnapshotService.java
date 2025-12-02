@@ -6,6 +6,7 @@ import com.laporeon.meliscraper.dtos.SnapshotDTO;
 import com.laporeon.meliscraper.entities.Category;
 import com.laporeon.meliscraper.entities.Product;
 import com.laporeon.meliscraper.entities.Snapshot;
+import com.laporeon.meliscraper.exceptions.SnapshotNotFoundException;
 import com.laporeon.meliscraper.helpers.Scraper;
 import com.laporeon.meliscraper.repositories.CategoryRepository;
 import com.laporeon.meliscraper.repositories.ProductRepository;
@@ -92,5 +93,12 @@ public class SnapshotService {
                         ))
                         .toList()
         );
+    }
+
+    public SnapshotDTO findByDate(LocalDate date) {
+        Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
+                                 .orElseThrow(() -> new SnapshotNotFoundException(date));
+
+        return buildSnapshotDTO(snapshot);
     }
 }
