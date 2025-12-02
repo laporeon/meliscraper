@@ -51,12 +51,21 @@ public class SwaggerConstants {
         }
         """;
 
+        public static final String NOT_FOUND_ERROR_MESSAGE = """
+        {
+            "status": 404,
+            "type": "NOT_FOUND_ERROR",
+            "message": "No snapshot found for date 2025-12-02",
+            "timestamp": "2025-12-02T16:20:26.685371366Z"
+        }
+        """;
+
         public static final String INTERNAL_ERROR_MESSAGE = """
         {
             "status": 500,
             "type": "INTERNAL_SERVER_ERROR",
             "message": "An unexpected error occurred",
-            "timestamp": "2025-10-29T15:19:52.121160501Z"
+            "timestamp": "2025-12-02T16:20:26.685371366Z"
         }
         """;
 }
