@@ -11,12 +11,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/snapshots")
@@ -46,6 +48,33 @@ public class SnapshotController {
     @GetMapping
     public ResponseEntity<SnapshotDTO> getSnapshot() {
         SnapshotDTO snapshotDTO = snapshotService.getSnapshot();
+        return ResponseEntity.status(HttpStatus.OK).body(snapshotDTO);
+    }
+
+    @Operation(
+            summary = "Find snapshot by date",
+            description = "Receives a date in yyyy-MM-dd format and returns snapshot if exists",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = SnapshotDTO.class),
+                                    examples = @ExampleObject(value = SwaggerConstants.SNAPSHOT_RESPONSE_EXAMPLE))),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerConstants.NOT_FOUND_ERROR_MESSAGE))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+            }
+    )
+    @GetMapping("/{date}")
+    public ResponseEntity<SnapshotDTO> findSnapshotByDate(@Param("date")LocalDate date) {
+        SnapshotDTO snapshotDTO = snapshotService.findByDate(date);
         return ResponseEntity.status(HttpStatus.OK).body(snapshotDTO);
     }
 }
