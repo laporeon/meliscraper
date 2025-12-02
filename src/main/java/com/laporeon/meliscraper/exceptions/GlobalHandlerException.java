@@ -12,6 +12,18 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
+    @ExceptionHandler(SnapshotNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleSnapshotNotFoundException(SnapshotNotFoundException ex) {
+        ErrorResponseDTO error = new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.name(),
+                ex.getMessage(),
+                Instant.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponseDTO> handleIOException(IOException ex) {
         ErrorResponseDTO error = new ErrorResponseDTO(
