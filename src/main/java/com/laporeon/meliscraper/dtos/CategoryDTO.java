@@ -1,4 +1,8 @@
 package com.laporeon.meliscraper.dtos;
 
-public record CategoryDTO(String name, String slug) {
+import java.util.List;
+
+public record CategoryDTO(String name,
+                          String slug,
+                          List<ProductDTO> products) {
 }
