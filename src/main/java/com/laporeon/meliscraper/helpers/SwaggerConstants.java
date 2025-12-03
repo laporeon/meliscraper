@@ -52,39 +52,37 @@ public class SwaggerConstants {
     """;
 
     public static final String PRODUCTS_RESPONSE_EXAMPLE = """
-    [
-        {
-            "products": [
-                {
-                    "position": 1,
-                    "name": "Mochila Reforçada Pack Young Meimi Amores Notebook 15.6 Cor Preto",
-                    "image": "https://http2.mlstatic.com/D_Q_NP_751105-MLA99906883639_112025-P.webp",
-                    "price": 60.72,
-                    "link": "https://www.mercadolivre.com.br/mochila-reforcada-pack-young-meimi-amores-notebook-156-cor-preto/p/MLB28665287"
-                },
-                {
-                    "position": 2,
-                    "name": "Controle Gamesir T4 Nova Lite Sem Fio Para Pc Switch Android Ios Steam Hall Effect Cor Verde",
-                    "image": "https://http2.mlstatic.com/D_Q_NP_869028-MLA99935270513_112025-P.webp",
-                    "price": 199.94,
-                    "link": "https://www.mercadolivre.com.br/controle-de-joystick-sem-fio-dualsense-ps5-azul-cobalto/p/MLB28083897"
-                }
-            ]
-        }
-    ]
+    {
+        "products": [
+            {
+                "name": "Mochila Reforçada Pack Young Meimi Amores Notebook 15.6 Cor Preto",
+                "price": 60.72,
+                "link": "https://www.mercadolivre.com.br/mochila-reforcada-pack-young-meimi-amores-notebook-156-cor-preto/p/MLB28665287",
+                "snapshotDate": "2025-12-02"
+            },
+            {
+                "name": "Controle Gamesir T4 Nova Lite Sem Fio Para Pc Switch Android Ios Steam Hall Effect Cor Verde",
+                "price": 199.94,
+                "link": "https://www.mercadolivre.com.br/controle-de-joystick-sem-fio-dualsense-ps5-azul-cobalto/p/MLB28083897",
+                "snapshotDate": "2025-12-02"
+            }
+        ]
+    }
     """;
 
     public static final String CATEGORY_SUMMARY_RESPONSE_EXAMPLE = """
-    [
-        {
-            "name": "Games",
-            "slug": "games"
-        },
-        {
-            "name": "Informática",
-            "slug": "informatica"
-        }
-    ]
+    {
+        "categories": [
+            {
+                "name": "Games",
+                "slug": "games"
+            },
+            {
+                "name": "Informática",
+                "slug": "informatica"
+            }
+        ]
+    }
     """;
 
     public static final String SNAPSHOT_NOT_FOUND_ERROR_MESSAGE = """
