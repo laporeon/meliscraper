@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/snapshots")
+@RequestMapping("/api/v1/snapshots")
 @RequiredArgsConstructor
-@Tag(name = "Snapshots")
+@Tag(name = "Snapshot")
 public class SnapshotController {
 
     private final SnapshotService snapshotService;
@@ -56,7 +57,7 @@ public class SnapshotController {
     public ResponseEntity<?> getSnapshots(@RequestParam(defaultValue = "false") boolean all) {
 
         if (all) {
-            List<SnapshotSummaryDTO> snapshots = snapshotService.getSnapshots();
+            Map<String, List<SnapshotSummaryDTO>> snapshots = snapshotService.getSnapshots();
             return ResponseEntity.status(HttpStatus.OK).body(snapshots);
         }
 
