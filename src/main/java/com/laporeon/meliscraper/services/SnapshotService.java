@@ -2,11 +2,12 @@ package com.laporeon.meliscraper.services;
 
 import com.laporeon.meliscraper.dtos.CategoryDTO;
 import com.laporeon.meliscraper.dtos.ProductDTO;
+import com.laporeon.meliscraper.dtos.SnapshotSummaryDTO;
 import com.laporeon.meliscraper.dtos.SnapshotDTO;
 import com.laporeon.meliscraper.entities.Category;
 import com.laporeon.meliscraper.entities.Product;
 import com.laporeon.meliscraper.entities.Snapshot;
-import com.laporeon.meliscraper.exceptions.SnapshotNotFoundException;
+import com.laporeon.meliscraper.exceptions.ResourceNotFoundException;
 import com.laporeon.meliscraper.helpers.Scraper;
 import com.laporeon.meliscraper.repositories.CategoryRepository;
 import com.laporeon.meliscraper.repositories.ProductRepository;
@@ -24,12 +25,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SnapshotService {
 
+    private static final String NOT_FOUND_MESSAGE = "No snapshots found for date '%s'";
+
     private final SnapshotRepository snapshotRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
+    public List<SnapshotSummaryDTO> getSnapshots() {
+        return snapshotRepository.findAll()
+                                 .stream()
+                                 .map(s -> new SnapshotSummaryDTO(s.getId(), s.getSnapshotDate()))
+                                 .toList();
+    }
+
     @Transactional
-    public SnapshotDTO getSnapshot() {
+    public SnapshotDTO getDailySnapshot() {
         Optional<Snapshot> existingSnapshot = snapshotRepository.findBySnapshotDate(LocalDate.now());
 
         if (existingSnapshot.isPresent()) {
@@ -45,6 +55,13 @@ public class SnapshotService {
         categoriesDTOList.forEach(cat -> findOrCreateCategoryWithProducts(snapshot, cat));
 
         return buildSnapshotDTO(snapshotRepository.findBySnapshotDate(LocalDate.now()).orElseThrow());
+    }
+
+    public SnapshotDTO findByDate(LocalDate date) {
+        Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
+                                              .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(date)));
+
+        return buildSnapshotDTO(snapshot);
     }
 
     private void findOrCreateCategoryWithProducts(Snapshot snapshot, CategoryDTO dto) {
@@ -94,11 +111,5 @@ public class SnapshotService {
                         .toList()
         );
     }
-
-    public SnapshotDTO findByDate(LocalDate date) {
-        Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
-                                 .orElseThrow(() -> new SnapshotNotFoundException(date));
-
-        return buildSnapshotDTO(snapshot);
-    }
+    
 }
