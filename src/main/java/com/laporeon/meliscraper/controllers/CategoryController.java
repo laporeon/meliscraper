@@ -21,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 @Tag(name = "Category")
 public class CategoryController {
@@ -47,8 +48,8 @@ public class CategoryController {
             }
     )
     @GetMapping
-    public ResponseEntity<List<CategorySummaryDTO>> getCategories() {
-        List<CategorySummaryDTO> categories = categoryService.getCategories();
+    public ResponseEntity<Map<String, List<CategorySummaryDTO>>> getCategories() {
+        Map<String, List<CategorySummaryDTO>> categories = categoryService.getCategories();
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 
@@ -74,8 +75,8 @@ public class CategoryController {
             }
     )
     @GetMapping("/{slug}/products")
-    public ResponseEntity<List<ProductSummaryDTO>> getCategoryProducts(@PathVariable("slug") String slug) {
-        List<ProductSummaryDTO> products = categoryService.getCategoryProducts(slug);
+    public ResponseEntity<Map<String, List<ProductSummaryDTO>>> getCategoryProducts(@PathVariable("slug") String slug) {
+        Map<String, List<ProductSummaryDTO>> products = categoryService.getCategoryProducts(slug);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 }
