@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,29 +23,33 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    public List<CategorySummaryDTO> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
+    public Map<String, List<CategorySummaryDTO>> getCategories() {
+        List<Category> categoriesList = categoryRepository.findAll();
 
-        return categories.stream()
+        List<CategorySummaryDTO> categories = categoriesList.stream()
                          .map(cat -> new CategorySummaryDTO(cat.getName(), cat.getSlug()))
                          .toList();
+
+        return Map.of("categories", categories);
     }
 
-    public List<ProductSummaryDTO> getCategoryProducts(String slug) {
+    public Map<String, List<ProductSummaryDTO>> getCategoryProducts(String slug) {
         Optional<Category> category = categoryRepository.findBySlug(slug);
 
         if(category.isEmpty()) {
             throw new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(slug));
         }
 
-        List<Product> products = productRepository.findByCategory(category.get());
+        List<Product> productsList = productRepository.findByCategory(category.get());
 
-        return products.stream()
+        List<ProductSummaryDTO> products = productsList.stream()
                 .map(p -> new ProductSummaryDTO(
                         p.getName(),
                         p.getPrice(),
                         p.getLink(),
                         p.getSnapshot().getSnapshotDate()))
                        .toList();
+
+        return Map.of("products", products);
     }
 }

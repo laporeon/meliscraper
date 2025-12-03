@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,11 +32,11 @@ public class SnapshotService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    public List<SnapshotSummaryDTO> getSnapshots() {
-        return snapshotRepository.findAll()
+    public Map<String, List<SnapshotSummaryDTO>> getSnapshots() {
+        return Map.of("snapshots", snapshotRepository.findAll()
                                  .stream()
                                  .map(s -> new SnapshotSummaryDTO(s.getId(), s.getSnapshotDate()))
-                                 .toList();
+                                 .toList());
     }
 
     @Transactional
@@ -111,5 +112,5 @@ public class SnapshotService {
                         .toList()
         );
     }
-    
+
 }
