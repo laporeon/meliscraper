@@ -51,6 +51,21 @@ public class SwaggerConstants {
     }
     """;
 
+    public static final String ALL_SNAPSHOTS_RESPONSE_EXAMPLE = """
+    {
+        "snapshots": [
+            {
+                "id": "uuid-1",
+                "snapshotDate": "2024-01-01"
+            },
+            {
+                "id": "uuid-2",
+                "snapshotDate": "2024-01-02"
+            }
+        ]
+    }
+    """;
+
     public static final String PRODUCTS_RESPONSE_EXAMPLE = """
     {
         "products": [
