@@ -10,7 +10,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 @Component
@@ -66,13 +65,16 @@ public class Scraper {
     private static BigDecimal extractPrice(Element product) {
         String main = product.select(PRODUCT_MAIN_PRICE_CLASS)
                              .text()
-                             .replaceAll("[^\\d]", "");
+                             .replaceAll("\\D", "");
 
-        Elements decimalElements = product.select(PRODUCT_DECIMAL_PRICE_CLASS);
-        String decimal = decimalElements.isEmpty() ? "00" : decimalElements.first().text().replaceAll("[^\\d]", "");
 
-        String fullPrice = main + decimal;
-        return new BigDecimal(fullPrice).divide(BigDecimal.TEN.pow(2), 2, RoundingMode.HALF_UP);
+        String decimal = product.select(PRODUCT_DECIMAL_PRICE_CLASS)
+                                .stream()
+                                .findFirst()
+                                .map(e -> e.text().replaceAll("\\D", ""))
+                                .orElse("00");
+
+        return new BigDecimal(main + decimal).movePointLeft(2);
     }
 
 }
