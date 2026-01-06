@@ -1,10 +1,10 @@
 <h1 align=center> Meliscraper
 
-![java](https://img.shields.io/static/v1?label=java&message=21.0.9&labelColor=2d3748&color=grey&logo=openjdk&logoColor=white&style=for-the-badge)
-![spring boot](https://img.shields.io/static/v1?label=spring%20boot&message=4.0.0&labelColor=2d3748&color=grey&logo=springboot&logoColor=white&style=for-the-badge)
-![postgresql](https://img.shields.io/static/v1?label=postgres&message=18.0.0&labelColor=2d3748&color=grey&logo=postgresql&logoColor=white&style=for-the-badge)
-![docker](https://img.shields.io/static/v1?label=docker&message=29.1.2&labelColor=2d3748&color=grey&logo=docker&logoColor=white&style=for-the-badge)
-![swagger](https://img.shields.io/static/v1?label=swagger&message=2.8.13&labelColor=2d3748&color=grey&logo=swagger&logoColor=white&style=for-the-badge)
+![java](https://img.shields.io/static/v1?label=java&message=21.0.9&labelColor=2d3748&color=grey&logo=openjdk&logoColor=white&style=flat)
+![spring boot](https://img.shields.io/static/v1?label=spring%20boot&message=4.0.0&labelColor=2d3748&color=grey&logo=springboot&logoColor=white&style=flat)
+![postgresql](https://img.shields.io/static/v1?label=postgres&message=18.0.0&labelColor=2d3748&color=grey&logo=postgresql&logoColor=white&style=flat)
+![docker](https://img.shields.io/static/v1?label=docker&message=29.1.2&labelColor=2d3748&color=grey&logo=docker&logoColor=white&style=flat)
+![swagger](https://img.shields.io/static/v1?label=swagger&message=2.8.13&labelColor=2d3748&color=grey&logo=swagger&logoColor=white&style=flat)
 
 </h1>
 
