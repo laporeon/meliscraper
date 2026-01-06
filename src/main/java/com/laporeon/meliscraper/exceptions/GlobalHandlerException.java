@@ -18,7 +18,6 @@ public class GlobalHandlerException {
     public ResponseEntity<ErrorResponseDTO> handleResourceFoundException(ResourceNotFoundException ex) {
         ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.name(),
                 ex.getMessage(),
                 Instant.now()
         );
@@ -28,11 +27,10 @@ public class GlobalHandlerException {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleException(Exception ex) {
-        log.error("Unexpected error occurred", ex);
+        log.error("An unexpected error occurred: " , ex);
 
         ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.name(),
                 "An unexpected error occurred",
                 Instant.now()
         );
@@ -42,9 +40,10 @@ public class GlobalHandlerException {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponseDTO> handleIOException(IOException ex) {
+        log.error("An unexpected error occurred while trying to scrape page: {}" , ex.getMessage());
+
         ErrorResponseDTO error = new ErrorResponseDTO(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.name(),
                 "An unexpected error occurred",
                 Instant.now()
         );
