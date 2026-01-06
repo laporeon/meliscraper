@@ -3,7 +3,7 @@ package com.laporeon.meliscraper.controllers;
 import com.laporeon.meliscraper.dtos.ErrorResponseDTO;
 import com.laporeon.meliscraper.dtos.SnapshotSummaryDTO;
 import com.laporeon.meliscraper.dtos.SnapshotDTO;
-import com.laporeon.meliscraper.helpers.SwaggerConstants;
+import com.laporeon.meliscraper.helpers.SwaggerExamples;
 import com.laporeon.meliscraper.services.SnapshotService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,12 +45,17 @@ public class SnapshotController {
                             content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SnapshotDTO.class),
-                            examples = @ExampleObject(value = SwaggerConstants.SNAPSHOT_RESPONSE_EXAMPLE))),
+                            examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_RESPONSE_EXAMPLE))),
+                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR_MESSAGE))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_ERROR_MESSAGE)))
             }
     )
     @GetMapping
@@ -73,17 +78,22 @@ public class SnapshotController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = SnapshotDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.SNAPSHOT_RESPONSE_EXAMPLE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_RESPONSE_EXAMPLE))),
                     @ApiResponse(responseCode = "404", description = "Not Found",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.SNAPSHOT_NOT_FOUND_ERROR_MESSAGE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_NOT_FOUND_ERROR_MESSAGE))),
+                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR_MESSAGE))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_ERROR_MESSAGE)))
             }
     )
     @GetMapping("/{date}")

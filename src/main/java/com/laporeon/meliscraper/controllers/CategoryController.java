@@ -4,7 +4,7 @@ import com.laporeon.meliscraper.dtos.CategorySummaryDTO;
 import com.laporeon.meliscraper.dtos.ErrorResponseDTO;
 import com.laporeon.meliscraper.dtos.ProductDTO;
 import com.laporeon.meliscraper.dtos.ProductSummaryDTO;
-import com.laporeon.meliscraper.helpers.SwaggerConstants;
+import com.laporeon.meliscraper.helpers.SwaggerExamples;
 import com.laporeon.meliscraper.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,12 +39,17 @@ public class CategoryController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = CategorySummaryDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.CATEGORY_SUMMARY_RESPONSE_EXAMPLE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.CATEGORY_SUMMARY_RESPONSE_EXAMPLE))),
+                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR_MESSAGE))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_ERROR_MESSAGE)))
             }
     )
     @GetMapping
@@ -61,17 +66,22 @@ public class CategoryController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ProductDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.PRODUCTS_RESPONSE_EXAMPLE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.PRODUCTS_RESPONSE_EXAMPLE))),
                     @ApiResponse(responseCode = "404", description = "OK",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.CATEGORY_NOT_FOUND_ERROR_MESSAGE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.CATEGORY_NOT_FOUND_ERROR_MESSAGE))),
+                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR_MESSAGE))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerConstants.INTERNAL_ERROR_MESSAGE)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_ERROR_MESSAGE)))
             }
     )
     @GetMapping("/{slug}/products")
