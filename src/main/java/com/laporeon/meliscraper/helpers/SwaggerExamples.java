@@ -1,6 +1,6 @@
 package com.laporeon.meliscraper.helpers;
 
-public class SwaggerConstants {
+public class SwaggerExamples {
 
     public static final String SNAPSHOT_RESPONSE_EXAMPLE = """
     {
@@ -51,21 +51,6 @@ public class SwaggerConstants {
     }
     """;
 
-    public static final String ALL_SNAPSHOTS_RESPONSE_EXAMPLE = """
-    {
-        "snapshots": [
-            {
-                "id": "uuid-1",
-                "snapshotDate": "2024-01-01"
-            },
-            {
-                "id": "uuid-2",
-                "snapshotDate": "2024-01-02"
-            }
-        ]
-    }
-    """;
-
     public static final String PRODUCTS_RESPONSE_EXAMPLE = """
     {
         "products": [
@@ -103,7 +88,6 @@ public class SwaggerConstants {
     public static final String SNAPSHOT_NOT_FOUND_ERROR_MESSAGE = """
     {
         "status": 404,
-        "type": "NOT_FOUND_ERROR",
         "message": "No snapshot found for date '2025-12-02'",
         "timestamp": "2025-12-02T16:20:26.685371366Z"
     }
@@ -112,8 +96,15 @@ public class SwaggerConstants {
     public static final String CATEGORY_NOT_FOUND_ERROR_MESSAGE = """
     {
         "status": 404,
-        "type": "NOT_FOUND_ERROR",
         "message": "Category 'dispositivos' not found. Check for available categories on: /categories",
+        "timestamp": "2025-12-02T16:20:26.685371366Z"
+    }
+    """;
+
+    public static final String TOO_MANY_REQUESTS_ERROR_MESSAGE = """
+    {
+        "status": 429,
+        "message": "Too many requests. Please try again later.",
         "timestamp": "2025-12-02T16:20:26.685371366Z"
     }
     """;
@@ -121,7 +112,6 @@ public class SwaggerConstants {
     public static final String INTERNAL_ERROR_MESSAGE = """
     {
         "status": 500,
-        "type": "INTERNAL_SERVER_ERROR",
         "message": "An unexpected error occurred",
         "timestamp": "2025-12-02T16:20:26.685371366Z"
     }
