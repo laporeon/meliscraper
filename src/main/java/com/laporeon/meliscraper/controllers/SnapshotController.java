@@ -118,8 +118,40 @@ public class SnapshotController {
             }
     )
     @GetMapping("/{date}")
-    public ResponseEntity<SnapshotDTO> findSnapshotByDate(@PathVariable("date")LocalDate date) {
+    public ResponseEntity<SnapshotDTO> findSnapshotByDate(
+            @Parameter(description = "Snapshot date in ISO format (yyyy-MM-dd)", required = true)
+            @PathVariable("date")LocalDate date) {
         SnapshotDTO snapshotDTO = snapshotService.findByDate(date);
         return ResponseEntity.status(HttpStatus.OK).body(snapshotDTO);
+    }
+
+    @Operation(
+            summary = "Delete snapshot by date",
+            description = "Deletes a snapshot and all associated products by date. Categories remain intact.",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Snapshot and related products successfully deleted"),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_NOT_FOUND_ERROR_MESSAGE))),
+                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponseDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+            }
+    )
+    @DeleteMapping("/{date}")
+    public ResponseEntity<SnapshotDTO> deleteSnapshotByDate(
+            @Parameter(description = "Snapshot date in ISO format (yyyy-MM-dd)", required = true)
+            @PathVariable("date") LocalDate date) {
+         snapshotService.deleteSnapshotByDate(date);
+        return ResponseEntity.noContent().build();
     }
 }

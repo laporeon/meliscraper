@@ -64,4 +64,11 @@ public class SnapshotService {
         return snapshotMapper.toDTO(snapshot, products);
     }
 
+    @Transactional
+    public void deleteSnapshotByDate(LocalDate date) {
+        Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
+                                              .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(date)));
+
+        snapshotRepository.delete(snapshot);
+    }
 }
