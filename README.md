@@ -26,11 +26,10 @@ complete picture of the best sellers across all categories, storing them in a st
 
 **Key features:**
 
-- **Flexible Snapshot Retrieval**: Get today's full snapshot or list all available snapshots with a single query parameter.
+- **Flexible Snapshot Retrieval**: Get today's full snapshot or list all available snapshots summary.
 - **Category-based Navigation**: List all available categories and retrieve products filtered by category slug.
 - **Historical Data Tracking**: Query snapshots by specific dates.
 - **OpenAPI Documentation**: Full Swagger UI documentation with examples and error responses.
-- **Consistent Response Structure**: Wrapped responses using `Map<String, List<T>>` for predictable JSON format.
 
 ## Requirements:
 
@@ -78,12 +77,14 @@ Access the application at `http://localhost:8080/docs` (or the port you configur
 
 ### **Routes**
 
-| Route                               | HTTP Method | Params                        | Description                                   | Auth Method |
-|-------------------------------------|-------------|-------------------------------|-----------------------------------------------|-------------|
-| `/docs`                             | GET         | -                             | Swagger documentation                         | None        |
-| `/api/v1/snapshots`                 | GET         | Query: `all` (default: false) | Get today's snapshot or all snapshots summary | None        |
-| `/api/v1/snapshots/:date`           | GET         | Path: `date` (yyyy-MM-dd)     | Find snapshot by specific date                | None        |
-| `/api/v1/categories`                | GET         | -                             | Get list of categories (name and slug only)   | None        |
-| `/api/v1/categories/:slug/products` | GET         | Path: `slug`                  | List products by category slug                | None        |
+| Route | HTTP Method | Params                                                                                                                                                                                                                                                            | Description | Auth Method |
+|-------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|-------------|
+| `/docs` | GET | -                                                                                                                                                                                                                                                                 | Swagger documentation | None |
+| `/api/v1/snapshots` | GET | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                               | Get all snapshots summary sorted by date in ascending order | None |
+| `/api/v1/snapshots/today` | GET | -                                                                                                                                                                                                                                                                 | Get today's snapshot | None |
+| `/api/v1/snapshots/:date` | GET | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                            | Find snapshot by specific date | None |
+| `/api/v1/snapshots/:date` | DELETE | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                            | Delete snapshot by date | None |
+| `/api/v1/categories` | GET | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                                                                              | Get list of categories (name and slug only) sorted by name in ascending order | None |
+| `/api/v1/categories/:slug/products` | GET | **Path Parameters:**<br> • `slug` - Category slug identifier<br> **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)<br> • `orderBy` - Sort field (default: "name")<br> • `direction` - Sort direction: ASC/DESC (default: "ASC") | List products by category slug | None |
 
 [⬆ Back to the top](#-meliscraper)

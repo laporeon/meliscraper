@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -17,15 +15,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "snapshots")
-@EntityListeners(AuditingEntityListener.class)
 public class Snapshot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @CreatedDate
     @Column(name = "snapshot_date", nullable = false, updatable = false)
-    private LocalDate snapshotDate;
+    @Builder.Default
+    private LocalDate snapshotDate = LocalDate.now();
 
 }

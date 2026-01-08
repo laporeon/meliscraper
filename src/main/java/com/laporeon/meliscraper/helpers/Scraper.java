@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.util.List;
 
 @Component
@@ -26,35 +27,40 @@ public class Scraper {
     public static final String PRODUCT_LINK_CLASS = ".dynamic-carousel__item-container > a";
 
     @SneakyThrows
-    public static List<CategoryDTO> scrape() {
+    public List<CategoryDTO> scrape() {
         Document doc = Jsoup.connect(APP_URL).get();
-        List<Element> sections = doc.select(CATEGORIES_SECTION_CLASS);
+        return doc.select(CATEGORIES_SECTION_CLASS)
+                  .stream()
+                  .map(this::extractCategory)
+                  .toList();
+    }
 
-        return sections.stream()
-                       .map(section -> {
-                           String title = section.select(CATEGORY_TITLE_CLASS).text();
-                           String slug = SlugifyCategoryName.slugify(title);
+    private CategoryDTO extractCategory(Element section) {
+        String title = section.select(CATEGORY_TITLE_CLASS).text();
+        String slug = slugify(title);
+        List<ProductDTO> products = extractProducts(section);
 
-                           Elements productElements = section.select(PRODUCT_CARD_CLASS);
-                           List<ProductDTO> products = productElements.stream()
-                                                                      .map(product -> new ProductDTO(
-                                                                              productElements.indexOf(product) + 1,
-                                                                              product.select(PRODUCT_NAME_CLASS).text(),
-                                                                              extractImage(product),
-                                                                              extractPrice(product),
-                                                                              product.select(PRODUCT_LINK_CLASS).attr("href")
-                                                                      ))
-                                                                      .toList();
+        return new CategoryDTO(title, slug, products);
+    }
 
-                           return new CategoryDTO(title, slug, products);
-                       })
-                       .toList();
+    private List<ProductDTO> extractProducts(Element section) {
+        Elements productElements = section.select(PRODUCT_CARD_CLASS);
+
+        return productElements.stream()
+                              .map(product -> new ProductDTO(
+                                      productElements.indexOf(product) + 1,
+                                      product.select(PRODUCT_NAME_CLASS).text(),
+                                      extractImage(product),
+                                      extractPrice(product),
+                                      product.select(PRODUCT_LINK_CLASS).attr("href"),
+                                      null))
+                              .toList();
     }
 
     private static String extractImage(Element product) {
         Element img = product.select(PRODUCT_IMAGE_CLASS).first();
 
-        if(!img.attr("data-src").isEmpty()) {
+        if (!img.attr("data-src").isEmpty()) {
             return img.attr("data-src");
         }
 
@@ -75,6 +81,15 @@ public class Scraper {
                                 .orElse("00");
 
         return new BigDecimal(main + decimal).movePointLeft(2);
+    }
+
+
+    private static String slugify(String name) {
+        return Normalizer.normalize(name, Normalizer.Form.NFD)
+                         .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                         .toLowerCase()
+                         .replace(" ", "-")
+                         .replaceAll("[^\\w-]+", "");
     }
 
 }
