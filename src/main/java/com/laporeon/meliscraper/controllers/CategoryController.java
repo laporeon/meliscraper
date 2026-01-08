@@ -87,12 +87,14 @@ public class CategoryController {
             }
     )
     @GetMapping("/{slug}/products")
-    public ResponseEntity<PageResponseDTO<ProductDTO>> getCategoryProducts(@PathVariable("slug") String slug,
+    public ResponseEntity<PageResponseDTO<ProductDTO>> getCategoryProducts(
+            @Parameter(description = "Category slug", example = "informatica", required = true)
+            @PathVariable("slug") String slug,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @Parameter(description = "Number of items per page")
             @RequestParam(value = "size", defaultValue = "10") int size,
             @Parameter(description = "Entity field used for sorting",
-                    schema = @Schema(allowableValues = {"name", "price", "link"}),
+                    schema = @Schema(allowableValues = {"name", "price"}),
                     example = "name")
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @Parameter(description = "Sort direction",
