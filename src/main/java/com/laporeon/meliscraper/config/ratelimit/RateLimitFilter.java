@@ -31,8 +31,10 @@ public class RateLimitFilter implements Filter {
     private static final Duration REFILL_DURATION = Duration.ofMinutes(1);
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter (
+            ServletRequest request, ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -40,7 +42,9 @@ public class RateLimitFilter implements Filter {
         Bucket bucket = buckets.computeIfAbsent(clientIp, k -> createBucket());
 
         log.info("Rate limit check for IP: {}, tokens available: {}/{}",
-                 clientIp, bucket.getAvailableTokens(), MAX_REQUESTS);
+                 clientIp,
+                 bucket.getAvailableTokens(),
+                 MAX_REQUESTS);
 
         if (!bucket.tryConsume(1)) {
             log.warn("Rate limit EXCEEDED for IP: {}", clientIp);
@@ -52,12 +56,14 @@ public class RateLimitFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private Bucket createBucket() {
+    private Bucket createBucket () {
         Bandwidth limit = Bandwidth.classic(MAX_REQUESTS, Refill.intervally(MAX_REQUESTS, REFILL_DURATION));
-        return Bucket.builder().addLimit(limit).build();
+        return Bucket.builder()
+                     .addLimit(limit)
+                     .build();
     }
 
-    private String getClientIp(HttpServletRequest request) {
+    private String getClientIp (HttpServletRequest request) {
         String xForwardedFor = request.getHeader("X-Forwarded-For");
 
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
@@ -67,16 +73,12 @@ public class RateLimitFilter implements Filter {
         return request.getRemoteAddr();
     }
 
-    private void writeResponse(HttpServletResponse response, int status, String message) throws IOException {
+    private void writeResponse (HttpServletResponse response, int status, String message) throws IOException {
         response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Cache-Control", "no-store");
 
-        objectMapper.writeValue(response.getWriter(), new ErrorResponseDTO(
-                status,
-                message,
-                Instant.now()
-        ));
+        objectMapper.writeValue(response.getWriter(), new ErrorResponseDTO(status, message, Instant.now()));
     }
 }

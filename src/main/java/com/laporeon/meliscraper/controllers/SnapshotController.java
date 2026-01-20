@@ -1,6 +1,8 @@
 package com.laporeon.meliscraper.controllers;
 
-import com.laporeon.meliscraper.dtos.*;
+import com.laporeon.meliscraper.dtos.ErrorResponseDTO;
+import com.laporeon.meliscraper.dtos.PageResponseDTO;
+import com.laporeon.meliscraper.dtos.SnapshotDTO;
 import com.laporeon.meliscraper.helpers.SwaggerExamples;
 import com.laporeon.meliscraper.services.SnapshotService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,17 +35,22 @@ public class SnapshotController {
             description = "Returns a paginated and sorted list of snapshots summary (id and snapshotDate only), " +
                     "allowing control over page number and size. Results are always ordered by snapshotDate in ascending order.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Snapshots summary list successfully retrieved",
-                            content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SnapshotDTO.class),
-                            examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_SUMMARY_PAGE_RESPONSE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Snapshots summary list successfully retrieved",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = SnapshotDTO.class),
+                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_SUMMARY_PAGE_RESPONSE))),
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
@@ -67,17 +74,23 @@ public class SnapshotController {
             summary = "Get today's snapshot",
             description = "Retrieves today's snapshot with full details including categories and products. If snapshot doesn't exist, creates a new one.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Snapshot successfully retrieved",
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Snapshot successfully retrieved",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = SnapshotDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_DETAIL_RESPONSE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
@@ -95,22 +108,30 @@ public class SnapshotController {
             summary = "Find snapshot by date",
             description = "Receives a date in yyyy-MM-dd format and returns snapshot if exists",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "OK",
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = SnapshotDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_DETAIL_RESPONSE))),
-                    @ApiResponse(responseCode = "404", description = "Not Found",
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_NOT_FOUND_ERROR_MESSAGE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
@@ -130,17 +151,23 @@ public class SnapshotController {
             description = "Deletes a snapshot and all associated products by date. Categories remain intact.",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Snapshot and related products successfully deleted"),
-                    @ApiResponse(responseCode = "404", description = "Not Found",
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_NOT_FOUND_ERROR_MESSAGE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
