@@ -32,7 +32,7 @@ public class SnapshotService {
     private final ProductRepository productRepository;
 
     @Transactional(readOnly = true)
-    public PageResponseDTO<SnapshotDTO> getSnapshotsSummary (Pageable pageable) {
+    public PageResponseDTO<SnapshotDTO> getSnapshotsSummary(Pageable pageable) {
 
         Page<SnapshotDTO> page = snapshotRepository.findAll(pageable)
                                                    .map(snapshotMapper::toSummaryDTO);
@@ -41,16 +41,17 @@ public class SnapshotService {
     }
 
     @Transactional
-    public SnapshotDTO getTodaySnapshot () {
+    public SnapshotDTO getTodaySnapshot() {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(LocalDate.now())
                                               .orElseGet(this::createNewSnapshot);
+
         List<Product> products = productRepository.findBySnapshot(snapshot);
 
         return snapshotMapper.toDTO(snapshot, products);
     }
 
     @Transactional
-    private Snapshot createNewSnapshot () {
+    private Snapshot createNewSnapshot() {
         List<CategoryDTO> categoriesDTOList = scraper.scrape();
         Snapshot snapshot = snapshotRepository.save(Snapshot.builder()
                                                             .build());
@@ -59,7 +60,7 @@ public class SnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public SnapshotDTO findByDate (LocalDate date) {
+    public SnapshotDTO findByDate(LocalDate date) {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
                                               .orElseThrow(() -> new ResourceNotFoundException(
                                                       NOT_FOUND_MESSAGE.formatted(date)));
@@ -70,7 +71,7 @@ public class SnapshotService {
     }
 
     @Transactional
-    public void deleteSnapshotByDate (LocalDate date) {
+    public void deleteSnapshotByDate(LocalDate date) {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
                                               .orElseThrow(() -> new ResourceNotFoundException(
                                                       NOT_FOUND_MESSAGE.formatted(date)));

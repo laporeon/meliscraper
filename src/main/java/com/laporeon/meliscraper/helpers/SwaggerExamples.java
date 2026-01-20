@@ -139,7 +139,7 @@ public class SwaggerExamples {
     public static final String CATEGORY_NOT_FOUND_ERROR_MESSAGE = """
             {
                 "status": 404,
-                "message": "Category 'dispositivos' not found. Check for available categories on: /categories",
+                "message": "Category 'dispositivos' not found.",
                 "timestamp": "2025-12-02T16:20:26.685371366Z"
             }
             """;
