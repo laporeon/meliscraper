@@ -1,6 +1,8 @@
 package com.laporeon.meliscraper.services;
 
-import com.laporeon.meliscraper.dtos.*;
+import com.laporeon.meliscraper.dtos.CategoryDTO;
+import com.laporeon.meliscraper.dtos.PageResponseDTO;
+import com.laporeon.meliscraper.dtos.SnapshotDTO;
 import com.laporeon.meliscraper.entities.Product;
 import com.laporeon.meliscraper.entities.Snapshot;
 import com.laporeon.meliscraper.exceptions.ResourceNotFoundException;
@@ -33,7 +35,7 @@ public class SnapshotService {
     public PageResponseDTO<SnapshotDTO> getSnapshotsSummary(Pageable pageable) {
 
         Page<SnapshotDTO> page = snapshotRepository.findAll(pageable)
-                                                        .map(snapshotMapper::toSummaryDTO);
+                                                   .map(snapshotMapper::toSummaryDTO);
 
         return snapshotMapper.toPageResponseDTO(page);
     }
@@ -42,14 +44,17 @@ public class SnapshotService {
     public SnapshotDTO getTodaySnapshot() {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(LocalDate.now())
                                               .orElseGet(this::createNewSnapshot);
+
         List<Product> products = productRepository.findBySnapshot(snapshot);
+
         return snapshotMapper.toDTO(snapshot, products);
     }
 
     @Transactional
     private Snapshot createNewSnapshot() {
         List<CategoryDTO> categoriesDTOList = scraper.scrape();
-        Snapshot snapshot = snapshotRepository.save(Snapshot.builder().build());
+        Snapshot snapshot = snapshotRepository.save(Snapshot.builder()
+                                                            .build());
         categoriesDTOList.forEach(cat -> categoryService.saveProductsFromCategory(snapshot, cat));
         return snapshot;
     }
@@ -57,7 +62,8 @@ public class SnapshotService {
     @Transactional(readOnly = true)
     public SnapshotDTO findByDate(LocalDate date) {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
-                                              .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(date)));
+                                              .orElseThrow(() -> new ResourceNotFoundException(
+                                                      NOT_FOUND_MESSAGE.formatted(date)));
 
         List<Product> products = productRepository.findBySnapshot(snapshot);
 
@@ -67,7 +73,8 @@ public class SnapshotService {
     @Transactional
     public void deleteSnapshotByDate(LocalDate date) {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
-                                              .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(date)));
+                                              .orElseThrow(() -> new ResourceNotFoundException(
+                                                      NOT_FOUND_MESSAGE.formatted(date)));
 
         snapshotRepository.delete(snapshot);
     }

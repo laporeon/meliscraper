@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CategoryService {
 
-    private static final String NOT_FOUND_MESSAGE = "Category '%s' not found. Check for available categories on: /categories";
+    private static final String NOT_FOUND_MESSAGE = "Category '%s' not found.";
 
     private final ProductMapper productMapper;
     private final CategoryMapper categoryMapper;
@@ -37,12 +37,11 @@ public class CategoryService {
 
     public PageResponseDTO<ProductDTO> getCategoryProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug)
-                                              .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MESSAGE.formatted(slug)));
+                                              .orElseThrow(() -> new ResourceNotFoundException(
+                                                      NOT_FOUND_MESSAGE.formatted(slug)));
 
         Page<ProductDTO> page = productRepository.findByCategorySlug(category.getSlug(), pageable)
-                                                        .map(productMapper::toSummaryDTO);
-
-        System.out.println("Page " + page);
+                                                 .map(productMapper::toSummaryDTO);
 
         return productMapper.toPageResponseDTO(page);
     }
@@ -51,10 +50,11 @@ public class CategoryService {
     public void saveProductsFromCategory(Snapshot snapshot, CategoryDTO categoryDTO) {
         Category category = findOrCreateCategory(categoryDTO);
 
-        categoryDTO.products().forEach(productDTO -> {
-            Product product = productMapper.toEntity(productDTO, category, snapshot);
-            productRepository.save(product);
-        });
+        categoryDTO.products()
+                   .forEach(productDTO -> {
+                       Product product = productMapper.toEntity(productDTO, category, snapshot);
+                       productRepository.save(product);
+                   });
     }
 
     private Category findOrCreateCategory(CategoryDTO dto) {

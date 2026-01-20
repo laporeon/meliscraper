@@ -1,6 +1,9 @@
 package com.laporeon.meliscraper.controllers;
 
-import com.laporeon.meliscraper.dtos.*;
+import com.laporeon.meliscraper.dtos.CategoryDTO;
+import com.laporeon.meliscraper.dtos.ErrorResponseDTO;
+import com.laporeon.meliscraper.dtos.PageResponseDTO;
+import com.laporeon.meliscraper.dtos.ProductDTO;
 import com.laporeon.meliscraper.helpers.SwaggerExamples;
 import com.laporeon.meliscraper.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,17 +34,23 @@ public class CategoryController {
             description = "Retrieves a paginated list of categories (name and slug only). " +
                     "Results are always ordered by name in ascending order.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Categories list successfully retrieved",
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Categories list successfully retrieved",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = PageResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.CATEGORY_SUMMARY_PAGE_RESPONSE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
@@ -64,22 +73,30 @@ public class CategoryController {
             summary = "List category products",
             description = "Retrieves a list of products associated to the specified category slug.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "OK",
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ProductDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.CATEGORY_PRODUCTS_PAGE_RESPONSE))),
-                    @ApiResponse(responseCode = "404", description = "OK",
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "OK",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.CATEGORY_NOT_FOUND_ERROR_MESSAGE))),
-                    @ApiResponse(responseCode = "429", description = "Too Many Requests",
+                    @ApiResponse(
+                            responseCode = "429",
+                            description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
                                     examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
