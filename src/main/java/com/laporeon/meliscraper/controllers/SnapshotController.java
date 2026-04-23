@@ -18,7 +18,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
@@ -40,21 +45,21 @@ public class SnapshotController {
                             description = "Snapshots summary list successfully retrieved",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = SnapshotDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOT_SUMMARY_PAGE_RESPONSE))),
+                                    examples = @ExampleObject(value = SwaggerExamples.SNAPSHOTS_SUMMARY_PAGE_RESPONSE))),
                     @ApiResponse(
                             responseCode = "429",
                             description = "Too Many Requests",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @GetMapping
@@ -87,14 +92,14 @@ public class SnapshotController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @GetMapping("/today")
@@ -128,14 +133,14 @@ public class SnapshotController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @GetMapping("/{date}")
@@ -164,14 +169,14 @@ public class SnapshotController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @DeleteMapping("/{date}")
