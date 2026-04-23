@@ -3,6 +3,7 @@ package com.laporeon.meliscraper.mappers;
 import com.laporeon.meliscraper.dtos.CategoryDTO;
 import com.laporeon.meliscraper.dtos.PageResponseDTO;
 import com.laporeon.meliscraper.dtos.SnapshotDTO;
+import com.laporeon.meliscraper.entities.Category;
 import com.laporeon.meliscraper.entities.Product;
 import com.laporeon.meliscraper.entities.Snapshot;
 import lombok.RequiredArgsConstructor;
@@ -31,16 +32,16 @@ public class SnapshotMapper {
                 snapshot.getId(),
                 snapshot.getSnapshotDate(),
                 products.stream()
-                        .collect(Collectors.groupingBy(Product::getCategory))
-                        .entrySet()
-                        .stream()
-                        .map(entry -> new CategoryDTO(
-                                entry.getKey().getName(),
-                                entry.getKey().getSlug(),
-                                entry.getValue().stream()
-                                     .map(productMapper::toDTO)
-                                     .toList()
-                        ))
+                        .collect(Collectors.groupingBy(p -> p.getCategory().getId()))
+                        .values().stream()
+                        .map(productList -> {
+                            Category cat = productList.getFirst().getCategory();
+                            return new CategoryDTO(
+                                    cat.getName(),
+                                    cat.getSlug(),
+                                    productList.stream().map(productMapper::toDTO).toList()
+                            );
+                        })
                         .toList()
         );
     }

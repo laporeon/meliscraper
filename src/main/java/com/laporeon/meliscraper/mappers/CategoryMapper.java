@@ -27,19 +27,10 @@ public class CategoryMapper {
                 null
         );
     }
-
-    public CategoryDTO toDTO(Category category) {
-        return new CategoryDTO(
-                category.getName(),
-                category.getSlug(),
-                category.getProducts().stream().map(productMapper::toDTO).toList()
-        );
-    }
-
-
-    public PageResponseDTO<CategoryDTO> toPageResponseDTO(Page<CategoryDTO> page) {
+    
+    public PageResponseDTO<CategoryDTO> toPageResponseDTO(Page<Category> page) {
         return new PageResponseDTO<>(
-                page.getContent(),
+                page.getContent().stream().map(this::toSummaryDTO).toList(),
                 page.getNumber(),
                 page.getSize(),
                 page.getTotalPages(),
