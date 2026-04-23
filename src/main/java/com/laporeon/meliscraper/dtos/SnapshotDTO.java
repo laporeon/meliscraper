@@ -11,6 +11,5 @@ public record SnapshotDTO(
         UUID id,
         LocalDate snapshotDate,
         List<CategoryDTO> categories
-
 ) {
 }

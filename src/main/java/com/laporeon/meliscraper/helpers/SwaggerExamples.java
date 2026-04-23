@@ -3,7 +3,7 @@ package com.laporeon.meliscraper.helpers;
 public class SwaggerExamples {
 
     // SNAPSHOTS
-    public static final String SNAPSHOT_SUMMARY_PAGE_RESPONSE = """
+    public static final String SNAPSHOTS_SUMMARY_PAGE_RESPONSE = """
             {
               "content": [
                 {
@@ -223,7 +223,7 @@ public class SwaggerExamples {
 
     // COMMON
 
-    public static final String ERROR_TOO_MANY_REQUESTS = """
+    public static final String TOO_MANY_REQUESTS_ERROR = """
             {
                 "status": 429,
                 "message": "Too many requests. Please try again later.",
@@ -231,7 +231,7 @@ public class SwaggerExamples {
             }
             """;
 
-    public static final String ERROR_INTERNAL_SERVER = """
+    public static final String INTERNAL_SERVER_ERROR = """
             {
                 "status": 500,
                 "message": "An unexpected error occurred",

@@ -6,6 +6,7 @@ import com.laporeon.meliscraper.dtos.PageResponseDTO;
 import com.laporeon.meliscraper.dtos.ProductDTO;
 import com.laporeon.meliscraper.helpers.SwaggerExamples;
 import com.laporeon.meliscraper.services.CategoryService;
+import com.laporeon.meliscraper.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,7 +20,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ProductService productService;
 
     @Operation(
             summary = "Get list of categories",
@@ -47,14 +53,14 @@ public class CategoryController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @GetMapping
@@ -93,14 +99,14 @@ public class CategoryController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_TOO_MANY_REQUESTS))),
+                                    examples = @ExampleObject(value = SwaggerExamples.TOO_MANY_REQUESTS_ERROR))),
                     @ApiResponse(
                             responseCode = "500",
                             description = "Internal Server Error",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorResponseDTO.class),
-                                    examples = @ExampleObject(value = SwaggerExamples.ERROR_INTERNAL_SERVER)))
+                                    examples = @ExampleObject(value = SwaggerExamples.INTERNAL_SERVER_ERROR)))
             }
     )
     @GetMapping("/{slug}/products")
@@ -121,7 +127,7 @@ public class CategoryController {
     ) {
         Pageable pageable = PageRequest.of(page, size,
                                            Sort.by(Sort.Direction.valueOf(direction.toUpperCase()), orderBy));
-        PageResponseDTO<ProductDTO> products = categoryService.getCategoryProducts(slug, pageable);
+        PageResponseDTO<ProductDTO> products = productService.getProductsByCategorySlug(slug, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 }

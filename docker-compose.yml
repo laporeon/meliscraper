@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   app:
     build:
@@ -30,7 +28,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - meliscraper_postgres_data:/var/lib/postgresq/
     environment:
       POSTGRES_USER: "${POSTGRES_USER:-admin}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
@@ -43,7 +41,7 @@ services:
       start_period: 20s
 
 volumes:
-  postgres_data:
+  meliscraper_postgres_data:
     driver: local
 
 networks:
