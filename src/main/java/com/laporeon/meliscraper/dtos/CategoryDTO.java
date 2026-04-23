@@ -9,7 +9,6 @@ public record CategoryDTO(
         String name,
         String slug,
         List<ProductDTO> products
-
 ) {
 }
 
