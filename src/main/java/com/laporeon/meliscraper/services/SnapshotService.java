@@ -8,7 +8,6 @@ import com.laporeon.meliscraper.entities.Snapshot;
 import com.laporeon.meliscraper.exceptions.ResourceNotFoundException;
 import com.laporeon.meliscraper.helpers.Scraper;
 import com.laporeon.meliscraper.mappers.SnapshotMapper;
-import com.laporeon.meliscraper.repositories.ProductRepository;
 import com.laporeon.meliscraper.repositories.SnapshotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,12 +27,10 @@ public class SnapshotService {
     private final Scraper scraper;
     private final SnapshotMapper snapshotMapper;
     private final SnapshotRepository snapshotRepository;
-    private final CategoryService categoryService;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Transactional(readOnly = true)
     public PageResponseDTO<SnapshotDTO> getSnapshotsSummary(Pageable pageable) {
-
         Page<SnapshotDTO> page = snapshotRepository.findAll(pageable)
                                                    .map(snapshotMapper::toSummaryDTO);
 
@@ -42,30 +39,31 @@ public class SnapshotService {
 
     @Transactional
     public SnapshotDTO getTodaySnapshot() {
-        Snapshot snapshot = snapshotRepository.findBySnapshotDate(LocalDate.now())
-                                              .orElseGet(this::createNewSnapshot);
+        return snapshotRepository.findBySnapshotDate(LocalDate.now())
+                                 .map(snapshot -> {
+                                     List<Product> products = productService.findProductsBySnapshot(snapshot);
+                                     return snapshotMapper.toDTO(snapshot, products);
+                                 })
+                                 .orElseGet(this::createNewSnapshot);
+    }
 
-        List<Product> products = productRepository.findBySnapshot(snapshot);
+    private SnapshotDTO createNewSnapshot() {
+        List<CategoryDTO> categoriesDTOList = scraper.scrape();
+        Snapshot snapshot = snapshotRepository.save(Snapshot.builder()
+                                                            .snapshotDate(LocalDate.now())
+                                                            .build());
+
+        List<Product> products = productService.saveProductsFromCategories(snapshot, categoriesDTOList);
 
         return snapshotMapper.toDTO(snapshot, products);
     }
 
-    @Transactional
-    private Snapshot createNewSnapshot() {
-        List<CategoryDTO> categoriesDTOList = scraper.scrape();
-        Snapshot snapshot = snapshotRepository.save(Snapshot.builder()
-                                                            .build());
-        categoriesDTOList.forEach(cat -> categoryService.saveProductsFromCategory(snapshot, cat));
-        return snapshot;
-    }
-
-    @Transactional(readOnly = true)
     public SnapshotDTO findByDate(LocalDate date) {
         Snapshot snapshot = snapshotRepository.findBySnapshotDate(date)
                                               .orElseThrow(() -> new ResourceNotFoundException(
                                                       NOT_FOUND_MESSAGE.formatted(date)));
 
-        List<Product> products = productRepository.findBySnapshot(snapshot);
+        List<Product> products = productService.findProductsBySnapshot(snapshot);
 
         return snapshotMapper.toDTO(snapshot, products);
     }
