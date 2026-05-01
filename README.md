@@ -13,10 +13,10 @@
 - [About](#about)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
-    - [Configuring](#configuring)
-        - [.env](#env)
+  - [Running with Docker (Recommended)](#running-with-docker-recommended)
+  - [Running Locally (Without Docker)](#running-locally-without-docker)
+  - [Environment Variables Reference](#environment-variables-reference)
 - [Usage](#usage)
-    - [Starting](#starting)
     - [Routes](#routes)
 
 ## About
@@ -45,46 +45,63 @@ complete picture of the best sellers across all categories, storing them in a st
 
 ## Getting Started
 
-### Configuring
+### Running with Docker (Recommended)
 
-#### **.env**
+This is the simplest setup. Docker Compose will automatically build and start all required services, using default values in the [Compose file](./docker-compose.yml).
 
-Using Docker, `.env` file is optional since default values exist in [Docker Compose file](./docker-compose.yml). For
-local development **without Docker**, you must create the PostgreSQL database manually and set `POSTGRES_USER` and
-`POSTGRES_PASSWORD` environment variables for PostgreSQL authentication. Other parameters have sensible defaults.
+```bash
+docker compose up -d --build
+```
 
-Rename  `.env.example` to `.env` and modify variables according to your needs.
+Then access the application at `http://localhost:8080/` (or the port you configured).
 
-| Variable          | For Docker                        | For Local Development             | Description         |
-|-------------------|-----------------------------------|-----------------------------------|---------------------|
-| PORT              | Optional (Default: "8080")        | Optional (Default: "8080")        | Server port         |
-| POSTGRES_USER     | Optional (Default: "admin")       | **Required**                      | PostgreSQL username |
-| POSTGRES_PASSWORD | Optional (Default: "password")    | **Required**                      | PostgreSQL password |
-| POSTGRES_DB       | Optional (Default: "meliscraper") | Optional (Default: "meliscraper") | PostgreSQL database |
+> [!NOTE]
+> **Optionally**, you can override any environment variables with your own settings.
+
+### Running Locally (Without Docker)
+
+1. Create a PostgreSQL database 
+2. Set required environment variables:
+```bash
+export POSTGRES_USER=<your-user-here>  
+export POSTGRES_PASSWORD=<your-password-here>  
+export POSTGRES_DB=<database-name>
+```
+3. (Optional) Set server port
+```bash
+export PORT=8081
+```
+4. Start the application: 
+```bash
+mvn spring-boot:run
+```
+5. Access at `http://localhost:8080/` (or the port you configured).
+
+### Environment Variables Reference
+
+| Variable          | For Docker                        | For Local Development         | Description                   |
+|-------------------|-----------------------------------|------------------------------|-------------------------------|
+| PORT              | Optional (Default: "8080")        | Optional (Default: "8080")   | Server port                   |
+| POSTGRES_USER     | Optional (Default: "admin")       | **Required**                 | PostgreSQL username           |
+| POSTGRES_PASSWORD | Optional (Default: "password")    | **Required**                 | PostgreSQL password           |
+| POSTGRES_DB       | Optional (Default: "meliscraper") | **Required** (must match the manually created database) | PostgreSQL database name      |
+
 
 ## Usage
 
-### **Starting**
-
-For the fastest setup, it is recommended to use Docker Compose to start the app and its services:
-
-```bash
-# Run docker compose command to start all services
-$ docker compose up -d --build
-```
-
-Access the application at `http://localhost:8080/docs` (or the port you configured).
+Once the application is running, you can interact via Swagger UI or directly through HTTP requests.
 
 ### **Routes**
 
-| Route | HTTP Method | Params                                                                                                                                                                                                                                                            | Description | Auth Method |
-|-------------------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|-------------|
-| `/docs` | GET | -                                                                                                                                                                                                                                                                 | Swagger documentation | None |
-| `/api/v1/snapshots` | GET | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                               | Get all snapshots summary sorted by date in ascending order | None |
-| `/api/v1/snapshots/today` | GET | -                                                                                                                                                                                                                                                                 | Get today's snapshot | None |
-| `/api/v1/snapshots/:date` | GET | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                            | Find snapshot by specific date | None |
-| `/api/v1/snapshots/:date` | DELETE | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                            | Delete snapshot by date | None |
-| `/api/v1/categories` | GET | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                                                                              | Get list of categories (name and slug only) sorted by name in ascending order | None |
-| `/api/v1/categories/:slug/products` | GET | **Path Parameters:**<br> • `slug` - Category slug identifier<br> **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)<br> • `orderBy` - Sort field (default: "name")<br> • `direction` - Sort direction: ASC/DESC (default: "ASC") | List products by category slug | None |
+| Route                               | HTTP Method | Params                                                                                                                                                                                                                                                                             | Description                                                                   | Auth Method |
+|-------------------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------|
+| `/docs`                             | GET         | -                                                                                                                                                                                                                                                                                  | Swagger documentation                                                         | None        |
+| `/api/v1/snapshots`                 | GET         | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                                                                                               | Get all snapshots summary sorted by date in ascending order                   | None        |
+| `/api/v1/snapshots/today`           | GET         | -                                                                                                                                                                                                                                                                                  | Get today's snapshot                                                          | None        |
+| `/api/v1/snapshots/:date`           | GET         | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                                             | Find snapshot by specific date                                                | None        |
+| `/api/v1/snapshots/:date`           | DELETE      | **Path Parameters:**<br> • `date` - Snapshot date in yyyy-MM-dd format                                                                                                                                                                                                             | Delete snapshot by date                                                       | None        |
+| `/api/v1/categories`                | GET         | **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)                                                                                                                                                                               | Get list of categories (name and slug only) sorted by name in ascending order | None        |
+| `/api/v1/categories/:slug/products` | GET         | **Path Parameters:**<br> • `slug` - Category slug identifier<br> **Query Parameters:**<br> • `page` - Page number (default: 0)<br> • `size` - Page size (default: 10)<br> • `orderBy` - Sort field (default: "name")<br> • `direction` - Sort direction: ASC/DESC (default: "ASC") | List products by category slug                                                | None        |
+
 
 [⬆ Back to the top](#-meliscraper)
